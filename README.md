@@ -1,8 +1,8 @@
-# Agrivion — Version 2
+# Agrivion — Version 3
 
 **Smarter Fields. Better Decisions. Stronger Farmers.**
 
-A responsive presentation website for Agrivion's smart-farming ecosystem, combining agricultural robotics, crop guidance and farmer community. This repository contains the Version 2 frontend and original project assets.
+A responsive presentation website for Agrivion's smart-farming ecosystem, combining agricultural robotics, crop guidance and farmer community. This repository contains the Version 3 frontend and original project assets.
 
 Agrivion is in the building and testing phase. Rover movement, GPS navigation, market prices and other interactive demonstrations use illustrative data. They do not connect to real hardware or live agricultural services.
 
