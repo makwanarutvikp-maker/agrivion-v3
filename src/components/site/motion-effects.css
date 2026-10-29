@@ -1,0 +1,142 @@
+.agrivion-pointer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+.agrivion-pointer-ring {
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(214, 237, 156, 0.6);
+  border-radius: 50%;
+  color: #122218;
+  box-shadow: 0 0 24px rgba(214, 237, 156, 0.05);
+}
+.agrivion-pointer-ring span {
+  max-width: 64px;
+  text-align: center;
+  font:
+    600 10px/1.3 "Manrope",
+    sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.agrivion-route-wipe {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  transform-origin: top;
+  background: #1d3525;
+  overflow: hidden;
+}
+.agrivion-route-wipe-line {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 5px;
+  background: #d6ed9c;
+}
+.scroll-statement {
+  font-weight: 500;
+  font-size: clamp(2rem, 5.5vw, 5.7rem);
+  line-height: 1.14;
+  letter-spacing: -0.055em;
+}
+.scroll-statement > span {
+  display: inline;
+}
+.interactive-card {
+  position: relative;
+  isolation: isolate;
+}
+.interactive-card::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+  background: radial-gradient(
+    400px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(214, 237, 156, 0.13),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.interactive-card:hover::after {
+  opacity: 1;
+}
+.v2-cta {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.v2-cta::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(105%);
+  border-radius: 50%;
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-radius 0.5s;
+}
+.v2-cta:hover::before {
+  transform: translateY(0);
+  border-radius: 0;
+}
+.v2-cta svg {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.v2-cta:hover svg {
+  transform: translate(2px, -2px);
+}
+.v2-nav-link {
+  position: relative;
+  isolation: isolate;
+}
+.v2-nav-link::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.v2-nav-link:hover::after {
+  transform: scaleX(1);
+}
+@media (hover: none), (pointer: coarse) {
+  .agrivion-pointer {
+    display: none;
+  }
+  .interactive-card::after {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .agrivion-pointer,
+  .agrivion-route-wipe {
+    display: none;
+  }
+  .scroll-statement > span {
+    opacity: 1 !important;
+  }
+  .v2-cta::before,
+  .v2-cta svg,
+  .v2-nav-link::after,
+  .interactive-card::after {
+    transition: none;
+  }
+}
