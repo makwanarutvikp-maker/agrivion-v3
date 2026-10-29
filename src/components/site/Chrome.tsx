@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { AnimatePresence, motion, useReducedMotion, useScroll } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useMotionValueEvent,
+} from "motion/react";
 import { Menu, X, ArrowUpRight, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 export const NAV = [
@@ -40,10 +46,16 @@ export function Logo({ className }: { className?: string }) {
 }
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
   const path = useRouterState({ select: (s) => s.location.pathname });
   const toggle = useRef<HTMLButtonElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  useMotionValueEvent(scrollY, "change", (value) => {
+    setCompact((current) => (current ? value > 40 : value > 100));
+  });
+  const highlighted = hovered ?? NAV.find((item) => item.to === path)?.to;
   useEffect(() => {
     setOpen(false);
   }, [path]);
@@ -62,19 +74,37 @@ export function Nav() {
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
       <nav
         aria-label="Main navigation"
-        className="glass mx-auto flex max-w-[1360px] items-center justify-between gap-4 rounded-2xl px-4 py-3 md:px-6"
+        className={cn(
+          "nav-pitch-shell glass mx-auto flex max-w-[1360px] items-center justify-between gap-4 rounded-2xl px-4 py-3 md:px-6",
+          compact && "is-compact",
+        )}
       >
         <Link to="/" aria-label="Agrivion home">
           <Logo className="text-sm" />
         </Link>
-        <div className="hidden items-center gap-1 lg:flex">
+        <div
+          className="nav-pitch-links hidden items-center gap-1 lg:flex"
+          onMouseLeave={() => setHovered(null)}
+        >
           {NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
+              preload="intent"
+              onMouseEnter={() => setHovered(n.to)}
+              onFocus={() => setHovered(n.to)}
+              onBlur={() => setHovered(null)}
               className="v2-nav-link rounded-full px-4 py-2 text-sm text-muted-foreground transition hover:text-foreground"
-              activeProps={{ className: "bg-accent !text-foreground" }}
+              activeProps={{ className: "!text-foreground" }}
             >
+              {highlighted === n.to && (
+                <motion.span
+                  aria-hidden="true"
+                  layoutId="nav-active-pill"
+                  className="nav-sliding-pill"
+                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                />
+              )}
               {n.label}
             </Link>
           ))}

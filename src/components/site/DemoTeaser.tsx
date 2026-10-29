@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
-import { Pause, Play } from "lucide-react";
+import { Pause, Play, OctagonX, RotateCcw } from "lucide-react";
 import { DemoFieldScene } from "./DemoFieldScene";
 import { coverageRoute } from "@/lib/rover-sim";
 
@@ -10,8 +10,10 @@ export function DemoTeaser() {
   const reduce = useReducedMotion();
   const [playing, setPlaying] = useState<boolean | null>(null);
   const [progress, setProgress] = useState(0.18);
-  const route = useMemo(() => coverageRoute(6), []);
-  const running = visible && (playing ?? !reduce);
+  const [rows, setRows] = useState(6);
+  const [halted, setHalted] = useState(false);
+  const route = useMemo(() => coverageRoute(rows), [rows]);
+  const running = visible && !halted && (playing ?? !reduce);
   useEffect(() => {
     if (!running) return;
     let frame = 0;
@@ -26,13 +28,14 @@ export function DemoTeaser() {
     return () => cancelAnimationFrame(frame);
   }, [running]);
   return (
-    <div ref={ref} className="v2-demo-teaser">
+    <div ref={ref} className={`v2-demo-teaser ${halted ? "is-halted" : ""}`}>
       <div className="v2-demo-teaser-header">
         <span>
           <i /> GPS ROUTE / DEMO PREVIEW
         </span>
         <button
           type="button"
+          disabled={halted}
           onClick={() => setPlaying(!running)}
           aria-label={running ? "Pause field preview" : "Play field preview"}
         >
@@ -40,7 +43,7 @@ export function DemoTeaser() {
         </button>
       </div>
       <DemoFieldScene
-        rows={6}
+        rows={rows}
         route={route}
         progress={progress}
         trail={[]}
@@ -49,8 +52,42 @@ export function DemoTeaser() {
         planning={false}
         onPoint={() => {}}
       />
+      <div className="teaser-controls">
+        <div>
+          <label htmlFor="preview-lanes">
+            Sample crop lanes <strong>{rows}</strong>
+          </label>
+          <input
+            id="preview-lanes"
+            type="range"
+            min={4}
+            max={8}
+            step={2}
+            value={rows}
+            onChange={(event) => {
+              setRows(Number(event.target.value));
+              setProgress(0);
+            }}
+          />
+        </div>
+        <button
+          type="button"
+          className="teaser-stop"
+          onClick={() => {
+            if (halted) {
+              setHalted(false);
+            } else {
+              setHalted(true);
+              setPlaying(false);
+            }
+          }}
+        >
+          {halted ? <RotateCcw size={12} /> : <OctagonX size={12} />}
+          {halted ? "Reset stop" : "Emergency stop"}
+        </button>
+      </div>
       <div className="v2-demo-teaser-footer">
-        <span>4WD ROVER · SAMPLE FIELD</span>
+        <span>{halted ? "STOP ENGAGED · RESET TO CONTINUE" : "4WD ROVER · SAMPLE FIELD"}</span>
         <span>{Math.round(progress * 100)}% COVERED</span>
       </div>
     </div>

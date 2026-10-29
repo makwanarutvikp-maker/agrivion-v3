@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ScrollText } from "@/components/site/MotionEffects";
+import { ScrollText, InteractiveCard } from "@/components/site/MotionEffects";
+import { EngineeringStudy } from "@/components/site/EngineeringStudy";
+import { DevelopmentRoadmap } from "@/components/site/DevelopmentRoadmap";
 
 import {
   ArrowUpRight,
@@ -129,20 +131,18 @@ function Home() {
           </div>
           <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {challenges.map(([num, title, body]) => (
-              <article
-                key={num}
-                data-reveal
-                className="v2-challenge border-t border-current/20 pt-6"
-              >
-                <span className="font-mono text-xs opacity-40">/{num}</span>
-                <h3 className="mt-7 text-xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed opacity-65">{body}</p>
-              </article>
+              <InteractiveCard key={num} className="challenge-surface">
+                <article data-reveal data-blur>
+                  <span className="problem-index font-mono text-xs opacity-60">/{num}</span>
+                  <h3 className="mt-7 text-xl font-semibold">{title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed opacity-65">{body}</p>
+                </article>
+              </InteractiveCard>
             ))}
           </div>
         </div>
       </Reveal>
-      <Reveal className="section-shell">
+      <Reveal id="ecosystem" className="section-shell topography-surface">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionTitle
             eyebrow="02 / THE CONNECTED ECOSYSTEM"
@@ -179,7 +179,7 @@ function Home() {
         </div>
       </Reveal>
       <AppShowcase />
-      <Reveal className="border-y bg-charcoal">
+      <Reveal id="engineering" className="border-y bg-charcoal topography-surface">
         <div className="section-shell grid items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
           <div>
             <p data-reveal className="eyebrow">
@@ -206,24 +206,10 @@ function Home() {
               </CtaLink>
             </div>
           </div>
-          <div
-            data-reveal
-            className="v2-engineering engineering-board relative overflow-hidden rounded-3xl"
-          >
-            <img
-              src="/media/steering-assembly.webp"
-              alt="Agrivion CAD steering assembly with steering knuckles and tie rod"
-              loading="lazy"
-              className="w-full object-contain"
-            />
-            <div className="flex flex-wrap justify-between gap-2 border-t border-black/10 p-5 font-mono text-[10px] uppercase tracking-widest text-[#355841]">
-              <span>Steering assembly / Design study</span>
-              <span>Source: project synopsis, p.7</span>
-            </div>
-          </div>
+          <EngineeringStudy />
         </div>
       </Reveal>
-      <Reveal className="section-shell">
+      <Reveal id="field-demo" className="section-shell">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div data-reveal className="v2-demo-preview order-2 relative lg:order-1">
             <DemoTeaser />
@@ -255,7 +241,7 @@ function Home() {
           </div>
         </div>
       </Reveal>
-      <Reveal className="paper-section">
+      <Reveal id="roadmap" className="paper-section">
         <div className="section-shell">
           <p data-reveal className="eyebrow">
             05 / A PRACTICAL PATH FORWARD
@@ -265,31 +251,7 @@ function Home() {
             <br />
             Grow with the farmer.
           </h2>
-          <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {[
-              [
-                "I",
-                "Field robotics",
-                "Develop and validate the rover, manual control, navigation, safety and modular field tools.",
-              ],
-              [
-                "II",
-                "Farm intelligence",
-                "Integrate computer vision, satellite monitoring and georeferenced crop observations.",
-              ],
-              [
-                "+",
-                "Connected support",
-                "Bring guidance, markets, schemes, expert access and community into the wider platform.",
-              ],
-            ].map(([n, t, b]) => (
-              <div key={n} data-reveal className="v2-challenge border-t border-current/20 pt-6">
-                <span className="font-display text-5xl text-forest-soft">{n}</span>
-                <h3 className="mt-6 text-xl">{t}</h3>
-                <p className="mt-3 text-sm leading-relaxed opacity-65">{b}</p>
-              </div>
-            ))}
-          </div>
+          <DevelopmentRoadmap />
           <Link
             to="/about"
             className="mt-10 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-8"
@@ -336,7 +298,10 @@ function Home() {
           ))}
         </div>
       </Reveal>
-      <section className="collaboration-section relative overflow-hidden">
+      <section
+        id="collaborate"
+        className="collaboration-section topography-surface relative overflow-hidden"
+      >
         <div className="section-shell relative">
           <p className="eyebrow">LET’S BUILD WHAT COMES NEXT</p>
           <h2 className="v2-collab-word mt-6 max-w-6xl">

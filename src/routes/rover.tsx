@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { CtaLink, PageHero, Reveal, SectionTitle, StatusTag } from "@/components/site/primitives";
+import { EngineeringStudy } from "@/components/site/EngineeringStudy";
 import { RoverStage } from "@/components/site/RoverStage";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -103,15 +104,8 @@ function RoverPage() {
           data-reveal
           className="grid overflow-hidden rounded-[2rem] border bg-card lg:grid-cols-[1.35fr_1fr]"
         >
-          <div className="relative min-h-[320px] bg-[#f1f3ef] p-5 sm:p-10">
-            <img
-              src={GALLERY[0]!.src}
-              alt="Agrivion front-wheel steering assembly CAD study"
-              className="h-full max-h-[440px] w-full object-contain"
-            />
-            <span className="absolute bottom-5 left-5 rounded-full bg-[#143d2b] px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-white">
-              Original project CAD
-            </span>
+          <div className="p-4 sm:p-6">
+            <EngineeringStudy />
           </div>
           <div className="flex flex-col justify-center p-7 sm:p-10">
             <p className="eyebrow">A foundation, designed to evolve</p>

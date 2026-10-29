@@ -83,6 +83,7 @@ export function CtaLink({ to, children, variant = "primary" }: CtaProps) {
     <Magnetic>
       <Link
         to={to}
+        preload="intent"
         className={cn(
           "v2-cta group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           variant === "primary"
@@ -141,10 +142,12 @@ export function SplitHeadline({
 export function Reveal({
   children,
   className,
+  id,
   as: Tag = "section",
 }: {
   children: ReactNode;
   className?: string;
+  id?: string;
   as?: "section" | "div";
 }) {
   const ref = useRef<HTMLElement>(null);
@@ -166,14 +169,19 @@ export function Reveal({
         targets.forEach((item, index) => {
           gsap.fromTo(
             item,
-            { y: 36, opacity: 0 },
+            {
+              y: 36,
+              opacity: 0,
+              ...(item.hasAttribute("data-blur") ? { filter: "blur(5px)" } : {}),
+            },
             {
               y: 0,
               opacity: 1,
+              ...(item.hasAttribute("data-blur") ? { filter: "blur(0px)" } : {}),
               duration: 0.85,
               ease: "power3.out",
               delay: (index % 4) * 0.045,
-              clearProps: "transform,opacity",
+              clearProps: "transform,opacity,filter",
               scrollTrigger: { trigger: item, start: "top 92%", once: true },
             },
           );
@@ -192,7 +200,7 @@ export function Reveal({
   }, [reduce]);
   const Comp = Tag as "section";
   return (
-    <Comp ref={ref as React.RefObject<HTMLElement & HTMLDivElement>} className={className}>
+    <Comp id={id} ref={ref as React.RefObject<HTMLElement & HTMLDivElement>} className={className}>
       {children}
     </Comp>
   );

@@ -1,11 +1,13 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Expand,
   LayoutGrid,
+  Play,
+  Pause,
   Smartphone,
   X,
   ZoomIn,
@@ -88,14 +90,42 @@ function offsetFor(index: number, active: number) {
 
 export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
   const [active, setActive] = useState(2);
+  const [tour, setTour] = useState(false);
+  const section = useRef<HTMLElement>(null);
+  const onstage = useInView(section, { amount: 0.15 });
   const [modal, setModal] = useState<number | "all" | null>(null);
   const [zoom, setZoom] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const headingId = useId();
   const reduced = useReducedMotion();
   const activeScreen = screens[active]!;
-  const step = (direction: number) =>
+  const choose = (index: number) => {
+    setTour(false);
+    setActive(index);
+  };
+  const step = (direction: number) => {
+    setTour(false);
     setActive((current) => (current + direction + screens.length) % screens.length);
+  };
+  useEffect(() => {
+    if (!tour || !onstage || modal !== null) return;
+    let count = 0;
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % screens.length);
+      if (++count >= screens.length) setTour(false);
+    }, 3400);
+    const hidden = () => {
+      if (document.hidden) setTour(false);
+    };
+    document.addEventListener("visibilitychange", hidden);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", hidden);
+    };
+  }, [tour, onstage, modal !== null]);
+  useEffect(() => {
+    if (!onstage) setTour(false);
+  }, [onstage]);
 
   useEffect(() => {
     const element = dialog.current;
@@ -110,6 +140,7 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
   }, [modal !== null]);
 
   const open = (screen: number | "all") => {
+    setTour(false);
     setZoom(false);
     setModal(screen);
   };
@@ -117,6 +148,7 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
   return (
     <section
       id={id}
+      ref={section}
       className="app-showcase"
       aria-label="Explore the Agrivion app interface concepts"
     >
@@ -158,7 +190,7 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
               type="button"
               key={screen.name}
               aria-pressed={active === index}
-              onClick={() => setActive(index)}
+              onClick={() => choose(index)}
             >
               <span>0{index + 1}</span>
               {screen.name}
@@ -166,6 +198,20 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
           ))}
         </div>
 
+        <div className="app-tour-actions">
+          <button
+            type="button"
+            className="app-tour-button"
+            aria-pressed={tour}
+            onClick={() => setTour(!tour)}
+          >
+            {tour ? <Pause size={13} /> : <Play size={13} />}
+            {tour ? "Pause app tour" : "Play app tour"}
+          </button>
+          <span>
+            {tour ? "A GUIDED LOOK THROUGH ALL SIX SCREENS" : "MANUAL CONTROLS ALWAYS AVAILABLE"}
+          </span>
+        </div>
         <div
           className="app-coverflow"
           role="group"
@@ -215,7 +261,7 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
                   aria-label={
                     isCenter ? `Enlarge ${screen.name} screen` : `Show ${screen.name} screen`
                   }
-                  onClick={() => (isCenter ? open(index) : setActive(index))}
+                  onClick={() => (isCenter ? open(index) : choose(index))}
                   disabled={!visible}
                 >
                   <OriginalPhone index={index} />
@@ -239,8 +285,27 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
           >
             <ArrowLeft size={22} />
           </button>
-          <div className="app-screen-caption" aria-live="polite" aria-atomic="true">
-            <span className="app-screen-count">0{active + 1} / 06</span>
+          <div
+            className="app-screen-caption"
+            aria-live={tour ? "off" : "polite"}
+            aria-atomic="true"
+          >
+            <span className="app-screen-count">
+              <span className="app-count-window">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.span
+                    key={active}
+                    initial={reduced ? false : { y: 14, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -14, opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    0{active + 1}
+                  </motion.span>
+                </AnimatePresence>
+              </span>{" "}
+              / 06
+            </span>
             <h3>{activeScreen.label}</h3>
             <p>{activeScreen.detail}</p>
           </div>

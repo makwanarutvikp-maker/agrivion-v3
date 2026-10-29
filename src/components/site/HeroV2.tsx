@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowDown, ArrowUpRight, Pause, Play, ScanLine, Sprout } from "lucide-react";
+import { RoverHotspots } from "./RoverHotspots";
 import { CtaLink } from "./primitives";
 import hero from "@/assets/hero-rover.jpg";
 import "./home-v2.css";
@@ -14,7 +15,7 @@ export function HeroV2() {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0.15]);
   return (
-    <section ref={ref} className={`v2-hero ${visible ? "is-visible" : ""}`}>
+    <section id="vision" ref={ref} className={`v2-hero ${visible ? "is-visible" : ""}`}>
       <motion.div className="v2-hero-landscape" style={reduce ? {} : { y, scale }}>
         <img
           src={hero}
@@ -88,6 +89,7 @@ export function HeroV2() {
           <ScanLine size={13} /> AGRIVION / 4WD PLATFORM
         </span>
       </motion.div>
+      <RoverHotspots />
       <div className="v2-hero-foot">
         <a href="#why" className="v2-scroll-link">
           <span>

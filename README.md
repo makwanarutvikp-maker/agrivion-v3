@@ -43,6 +43,12 @@ npm run build
 
 The project uses the existing TanStack Start/Vite setup. Production files are generated in `.output/`. No backend feature services, database or hardware integration are implemented.
 
+## Present the project
+
+Select **Present** on the homepage to enable the eight-section pitch controls. Use the arrows or Page Up/Page Down to move between sections, **Shift+D** to open the rover demo, and **Esc** to exit. Presentation shortcuts are inactive in form controls and the steering study.
+
+The app gallery includes a guided **Play app tour** control alongside manual navigation. The engineering panel switches between the original annotated CAD and an interactive **Steer it** geometry study. The homepage field preview also supports sample lane changes and a latched emergency stop. All engineering illustrations and field values are demonstrations, not validated hardware specifications.
+
 ## Technology
 
 React 19, TypeScript, TanStack Router/Start, Vite 8, Tailwind CSS, Motion for React, GSAP, Radix UI, Three.js/React Three Fiber and Lucide icons. The site respects reduced-motion preferences and supports keyboard and touch interaction.
