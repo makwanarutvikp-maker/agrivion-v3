@@ -1,4 +1,4 @@
-import "@/components/site/pitch-enhancements.css";
+import "@/components/site/professional.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -11,12 +11,10 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { motion, MotionConfig } from "motion/react";
+import { MotionConfig } from "motion/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { PitchControls } from "@/components/site/PitchControls";
-import { MotionEffects } from "@/components/site/MotionEffects";
 import { Nav, Footer } from "@/components/site/Chrome";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -91,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Agrivion is building a smart-farming ecosystem combining robotics, agricultural guidance and farmer community.",
       },
-      { name: "theme-color", content: "#121a17" },
+      { name: "theme-color", content: "#f7f9f6" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -143,22 +141,13 @@ function RootComponent() {
       </a>
 
       <MotionConfig reducedMotion="user">
-        <MotionEffects routeKey={path} />
         <Nav />
-        <motion.main
-          id="main"
-          key={path}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <main id="main" key={path}>
           <Outlet />
-        </motion.main>
-        {path === "/" && <PitchControls />}
+        </main>
       </MotionConfig>
       <Footer />
-      <Toaster theme="dark" position="bottom-center" />
+      <Toaster theme="light" position="bottom-center" />
     </QueryClientProvider>
   );
 }

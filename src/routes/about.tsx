@@ -146,7 +146,7 @@ function About() {
     <>
       <PageHero
         eyebrow="Our story / Our direction"
-        title="Rooted in agriculture. Building what comes next."
+        title="About Agrivion"
         intro="Agrivion begins with a simple ambition: make modern farming tools and useful knowledge more accessible to the people who grow our food."
       >
         <div className="flex flex-wrap gap-3">
@@ -166,10 +166,10 @@ function About() {
         </div>
       </PageHero>
 
-      <Reveal className="mx-auto grid max-w-7xl gap-10 px-5 pb-24 md:grid-cols-[1.2fr_0.8fr] md:px-8 md:pb-32">
+      <Reveal className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 md:grid-cols-[1.2fr_0.8fr] md:px-8 md:pb-20">
         <div data-reveal>
           <p className="eyebrow">The ambition</p>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-5xl">
+          <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">
             A complete support system.
             <br />
             <span className="text-emerald-glow">From sowing to selling.</span>
@@ -214,7 +214,7 @@ function About() {
       </Reveal>
 
       <section id="development" className="scroll-mt-28 border-y bg-charcoal">
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
           <SectionTitle
             eyebrow="Development roadmap"
             title="Two phases. One connected vision."
@@ -274,7 +274,7 @@ function About() {
         </div>
       </section>
 
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr]">
           <div data-reveal className="self-start lg:sticky lg:top-32">
             <p className="eyebrow">From idea to evidence</p>
@@ -312,7 +312,7 @@ function About() {
       </Reveal>
 
       <section className="border-y bg-charcoal">
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-8">
           <SectionTitle
             eyebrow="The impact we are working towards"
             title="Technology with a farmer's purpose."
@@ -350,7 +350,7 @@ function About() {
         </div>
       </section>
 
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <SectionTitle
           eyebrow="Proposed business model"
           title="A platform built to grow sustainably."
@@ -382,7 +382,7 @@ function About() {
       </Reveal>
 
       <section className="border-y bg-charcoal">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:px-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
             <p className="eyebrow">Scalability & future scope</p>
             <h2 className="mt-4 text-3xl font-semibold md:text-4xl">
@@ -433,7 +433,7 @@ function About() {
         </div>
       </section>
 
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <div
           data-reveal
           className="grid gap-8 rounded-[2rem] border bg-card/40 p-7 md:p-12 lg:grid-cols-[0.7fr_1.3fr]"

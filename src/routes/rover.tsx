@@ -90,7 +90,7 @@ function RoverPage() {
     <>
       <PageHero
         eyebrow="01 / Field robotics"
-        title="Built around the realities of the field."
+        title="Agrivion agricultural rover"
         intro="A compact, modular 4WD platform. Agrivion brings agricultural knowledge and practical engineering together, one tested capability at a time."
       >
         <div className="flex flex-wrap items-center gap-4">
@@ -135,7 +135,7 @@ function RoverPage() {
         </div>
       </Reveal>
 
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <SectionTitle
           eyebrow="Two operating modes"
           title="From hands-on control to planned routes."
@@ -183,7 +183,7 @@ function RoverPage() {
       </Reveal>
 
       <section className="border-y bg-charcoal">
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-8">
           <Reveal>
             <SectionTitle
               eyebrow="Engineering notebook"
@@ -252,7 +252,7 @@ function RoverPage() {
         </div>
       </section>
 
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
           <SectionTitle
             eyebrow="Modular by intent"
@@ -301,7 +301,7 @@ function RoverPage() {
       </Reveal>
 
       <Reveal className="border-y bg-charcoal">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-24 md:px-8 lg:grid-cols-[.8fr_1.2fr]">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:px-8 lg:grid-cols-[.8fr_1.2fr]">
           <div>
             <SectionTitle
               eyebrow="Controller design"
@@ -341,7 +341,7 @@ function RoverPage() {
         </div>
       </Reveal>
 
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 md:px-8">
+      <Reveal className="mx-auto max-w-7xl px-5 py-16 md:px-8">
         <div className="grid items-start gap-12 lg:grid-cols-2">
           <div>
             <SectionTitle

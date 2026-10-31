@@ -1,13 +1,10 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Expand,
   LayoutGrid,
-  Play,
-  Pause,
   Smartphone,
   X,
   ZoomIn,
@@ -19,57 +16,62 @@ const source = "/media/app-overview.webp";
 const screens = [
   {
     name: "Registration",
-    label: "Start with your farm",
-    detail: "A farmer profile brings local context into the platform.",
+    label: "Set up a farmer profile",
+    detail:
+      "A planned profile for basic contact and farm details, helping bring local context into the app.",
     x: 48,
     y: 195,
   },
   {
     name: "Login",
-    label: "Your own farming space",
-    detail: "A simple entry point to the planned Agrivion experience.",
+    label: "Access your account",
+    detail: "The proposed sign-in screen for a farmer’s own Agrivion account and farm information.",
     x: 538,
     y: 195,
   },
   {
     name: "Farm dashboard",
-    label: "One place. A whole farm.",
-    detail: "Soil health, crop guidance, rover access, markets and farm accounts.",
+    label: "Find your farming tools",
+    detail:
+      "A proposed home screen for soil health, crop guidance, rover controls, markets and farm records.",
     x: 1028,
     y: 195,
   },
   {
     name: "Communities",
-    label: "Knowledge grows together",
-    detail: "Discover farmer groups and share practical experience from the field.",
+    label: "Find farmer groups",
+    detail:
+      "The planned community area brings farmers together around crops, techniques and shared interests.",
     x: 48,
     y: 1147,
   },
   {
     name: "Farmer feed",
-    label: "Learn from the field",
-    detail: "Crop conversations, farming techniques and a connected community.",
+    label: "Share practical experience",
+    detail:
+      "A concept for crop discussions, farming questions and useful updates from other farmers.",
     x: 538,
     y: 1147,
   },
   {
     name: "Farm accounts",
-    label: "See the everyday details",
-    detail: "A clearer picture of farm income, expenses and everyday records.",
+    label: "Keep farm records together",
+    detail:
+      "The proposed accounts view helps organise income, expenses and day-to-day farm records.",
     x: 1028,
     y: 1147,
   },
 ];
 
-/** CSS window into the unmodified, original six-screen synopsis image. */
-function OriginalPhone({ index, className = "" }: { index: number; className?: string }) {
+/** A CSS crop of the unmodified six-screen image from the original synopsis. */
+function OriginalPhone({ index }: { index: number }) {
   const screen = screens[index]!;
   const style = {
     "--source-left": `${-(screen.x / 448) * 100}%`,
     "--source-top": `${-(screen.y / 866) * 100}%`,
   } as CSSProperties;
   return (
-    <div className={`app-original-phone ${className}`} style={style}>
+    <div className="simple-app-phone" style={style}>
       <img
         src={source}
         alt={`Original Agrivion ${screen.name.toLowerCase()} interface concept from the synopsis`}
@@ -82,50 +84,13 @@ function OriginalPhone({ index, className = "" }: { index: number; className?: s
   );
 }
 
-function offsetFor(index: number, active: number) {
-  let delta = (index - active + screens.length) % screens.length;
-  if (delta > screens.length / 2) delta -= screens.length;
-  return delta;
-}
-
 export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
   const [active, setActive] = useState(2);
-  const [tour, setTour] = useState(false);
-  const section = useRef<HTMLElement>(null);
-  const onstage = useInView(section, { amount: 0.15 });
   const [modal, setModal] = useState<number | "all" | null>(null);
   const [zoom, setZoom] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const headingId = useId();
-  const reduced = useReducedMotion();
   const activeScreen = screens[active]!;
-  const choose = (index: number) => {
-    setTour(false);
-    setActive(index);
-  };
-  const step = (direction: number) => {
-    setTour(false);
-    setActive((current) => (current + direction + screens.length) % screens.length);
-  };
-  useEffect(() => {
-    if (!tour || !onstage || modal !== null) return;
-    let count = 0;
-    const timer = window.setInterval(() => {
-      setActive((current) => (current + 1) % screens.length);
-      if (++count >= screens.length) setTour(false);
-    }, 3400);
-    const hidden = () => {
-      if (document.hidden) setTour(false);
-    };
-    document.addEventListener("visibilitychange", hidden);
-    return () => {
-      window.clearInterval(timer);
-      document.removeEventListener("visibilitychange", hidden);
-    };
-  }, [tour, onstage, modal !== null]);
-  useEffect(() => {
-    if (!onstage) setTour(false);
-  }, [onstage]);
 
   useEffect(() => {
     const element = dialog.current;
@@ -140,205 +105,102 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
   }, [modal !== null]);
 
   const open = (screen: number | "all") => {
-    setTour(false);
     setZoom(false);
     setModal(screen);
   };
+  const step = (direction: number) =>
+    setActive((current) => (current + direction + screens.length) % screens.length);
 
   return (
-    <section
-      id={id}
-      ref={section}
-      className="app-showcase"
-      aria-label="Explore the Agrivion app interface concepts"
-    >
-      <div className="app-showcase-heading">
+    <section id={id} className="simple-app-section" aria-label="Agrivion app designs">
+      <div className="simple-app-heading">
         <div>
-          <p className="eyebrow">THE AGRIVION APP / FROM SOWING TO SELLING</p>
-          <motion.h2
-            initial={reduced ? false : { opacity: 0, y: 35 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
-            A whole farm.
+          <p className="eyebrow">Farmer app</p>
+          <h2>
+            Useful farming information.
             <br />
-            <span>In your hand.</span>
-          </motion.h2>
+            In one place.
+          </h2>
         </div>
-        <div className="app-showcase-intro">
-          <p>
-            Take a closer look at the original app designs. Every screen is part of one connected
-            vision for the farmer.
-          </p>
-          <button type="button" className="app-sheet-link" onClick={() => open("all")}>
-            <LayoutGrid size={16} /> View all original screens <ArrowUpRight size={16} />
-          </button>
-        </div>
+        <p>
+          Explore the six original app designs from the synopsis. Select a screen to see it clearly,
+          or open the complete image.
+        </p>
       </div>
 
-      <div className="app-gallery-shell">
-        <div className="app-gallery-topline">
-          <span>
-            <span className="app-concept-dot" /> APP INTERFACE CONCEPT
-          </span>
-          <span>SELECT A SCREEN. EXPLORE THE DETAILS.</span>
-        </div>
-        <div className="app-screen-picker" role="group" aria-label="Choose an app screen">
-          {screens.map((screen, index) => (
-            <button
-              type="button"
-              key={screen.name}
-              aria-pressed={active === index}
-              onClick={() => choose(index)}
-            >
-              <span>0{index + 1}</span>
-              {screen.name}
-            </button>
-          ))}
-        </div>
-
-        <div className="app-tour-actions">
-          <button
-            type="button"
-            className="app-tour-button"
-            aria-pressed={tour}
-            onClick={() => setTour(!tour)}
-          >
-            {tour ? <Pause size={13} /> : <Play size={13} />}
-            {tour ? "Pause app tour" : "Play app tour"}
-          </button>
-          <span>
-            {tour ? "A GUIDED LOOK THROUGH ALL SIX SCREENS" : "MANUAL CONTROLS ALWAYS AVAILABLE"}
-          </span>
-        </div>
-        <div
-          className="app-coverflow"
-          role="group"
-          aria-roledescription="carousel"
-          aria-label="App screens. Use left and right arrow keys to browse."
-          tabIndex={0}
-          onKeyDown={(event) => {
-            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-              event.preventDefault();
-              // Keep keyboard focus on a stable target as phone cards move out of view.
-              event.currentTarget.focus({ preventScroll: true });
-              step(event.key === "ArrowLeft" ? -1 : 1);
-            }
-          }}
-        >
-          <div className="app-orbit app-orbit-one" aria-hidden="true" />
-          <div className="app-orbit app-orbit-two" aria-hidden="true" />
-          <div className="app-coverflow-word" aria-hidden="true">
-            AGRIVION
-          </div>
-          {screens.map((screen, index) => {
-            const position = offsetFor(index, active);
-            const isCenter = position === 0;
-            const visible = Math.abs(position) <= 1;
-            return (
-              <motion.div
+      <div className="simple-app-gallery">
+        <div className="simple-app-details">
+          <span className="simple-app-status">App in development</span>
+          <h3>Explore the app screens</h3>
+          <p className="simple-app-instruction">Choose a screen below.</p>
+          <div className="simple-app-choices" role="group" aria-label="Choose an app screen">
+            {screens.map((screen, index) => (
+              <button
+                type="button"
                 key={screen.name}
-                className={`app-device-position ${isCenter ? "is-center" : "is-side"}`}
-                style={{ zIndex: isCenter ? 3 : visible ? 2 : 0 }}
-                initial={false}
-                animate={{
-                  x: `${position * 108}%`,
-                  y: isCenter ? 0 : 40,
-                  rotate: isCenter ? 0 : position * 7,
-                  scale: isCenter ? 1 : 0.82,
-                  opacity: visible ? (isCenter ? 1 : 0.65) : 0,
-                }}
-                transition={
-                  reduced ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 24 }
-                }
-                aria-hidden={!visible}
+                aria-pressed={active === index}
+                onClick={() => setActive(index)}
               >
-                <button
-                  type="button"
-                  tabIndex={visible ? 0 : -1}
-                  className="app-device-button"
-                  aria-label={
-                    isCenter ? `Enlarge ${screen.name} screen` : `Show ${screen.name} screen`
-                  }
-                  onClick={() => (isCenter ? open(index) : choose(index))}
-                  disabled={!visible}
-                >
-                  <OriginalPhone index={index} />
-                  {isCenter && (
-                    <span className="app-screen-expand">
-                      <Expand size={15} /> Click to explore
-                    </span>
-                  )}
-                </button>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        <div className="app-gallery-bottomline">
-          <button
-            type="button"
-            className="app-gallery-arrow"
-            aria-label="Previous app screen"
-            onClick={() => step(-1)}
-          >
-            <ArrowLeft size={22} />
-          </button>
-          <div
-            className="app-screen-caption"
-            aria-live={tour ? "off" : "polite"}
-            aria-atomic="true"
-          >
-            <span className="app-screen-count">
-              <span className="app-count-window">
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.span
-                    key={active}
-                    initial={reduced ? false : { y: 14, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -14, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    0{active + 1}
-                  </motion.span>
-                </AnimatePresence>
-              </span>{" "}
-              / 06
-            </span>
-            <h3>{activeScreen.label}</h3>
+                <span>{index + 1}</span>
+                {screen.name}
+              </button>
+            ))}
+          </div>
+          <div className="simple-app-description" aria-live="polite" aria-atomic="true">
+            <h4>{activeScreen.label}</h4>
             <p>{activeScreen.detail}</p>
           </div>
+          <div className="simple-app-actions">
+            <button type="button" className="simple-app-primary" onClick={() => open(active)}>
+              <Expand size={17} /> Enlarge this screen
+            </button>
+            <button type="button" onClick={() => open("all")}>
+              <LayoutGrid size={17} /> View all six screens
+            </button>
+          </div>
+          <p className="simple-app-note">
+            These are interface concepts. App features are being built and tested.
+          </p>
+        </div>
+        <div className="simple-app-preview">
           <button
             type="button"
-            className="app-gallery-arrow"
-            aria-label="Next app screen"
-            onClick={() => step(1)}
+            className="simple-app-screen-button"
+            aria-label={`Enlarge ${activeScreen.name} screen`}
+            onClick={() => open(active)}
           >
-            <ArrowRight size={22} />
+            <OriginalPhone index={active} />
           </button>
+          <div className="simple-app-pagination">
+            <button type="button" aria-label="Previous app screen" onClick={() => step(-1)}>
+              <ArrowLeft size={18} />
+            </button>
+            <span>
+              {active + 1} of {screens.length} · {activeScreen.name}
+            </span>
+            <button type="button" aria-label="Next app screen" onClick={() => step(1)}>
+              <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
-        <p className="app-source-caption">
-          Original interface concepts from the Agrivion synopsis. The app is in development.
-        </p>
       </div>
 
       <dialog
         ref={dialog}
-        className="app-image-dialog"
+        className="simple-app-dialog"
         aria-labelledby={headingId}
         onClose={() => setModal(null)}
         onClick={(event) => {
           if (event.target === event.currentTarget) setModal(null);
         }}
       >
-        <div className="app-dialog-content">
-          <div className="app-dialog-toolbar">
+        <div className="simple-app-dialog-content">
+          <div className="simple-app-dialog-header">
             <div>
-              <p>AGRIVION / ORIGINAL APP DESIGNS</p>
+              <p>Original app designs</p>
               <h3 id={headingId}>
                 {modal === "all"
-                  ? "All six original screens"
+                  ? "All six app screens"
                   : typeof modal === "number"
                     ? screens[modal]!.name
                     : "App interface"}
@@ -348,7 +210,7 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
               <X size={22} />
             </button>
           </div>
-          <div className="app-dialog-options">
+          <div className="simple-app-dialog-options">
             <button
               type="button"
               onClick={() => {
@@ -357,33 +219,35 @@ export function AppShowcase({ id = "app-showcase" }: { id?: string }) {
               }}
             >
               {modal === "all" ? <Smartphone size={16} /> : <LayoutGrid size={16} />}
-              {modal === "all" ? "Selected screen" : "Original six-screen sheet"}
+              {modal === "all" ? "Selected screen" : "All six screens"}
             </button>
             <button type="button" onClick={() => setZoom(!zoom)} aria-pressed={zoom}>
               {zoom ? <ZoomOut size={16} /> : <ZoomIn size={16} />}
-              {zoom ? "Fit view" : "Enlarge"}
+              {zoom ? "Fit to window" : "Zoom in"}
             </button>
             <a href={source} target="_blank" rel="noreferrer">
               Open original <ArrowUpRight size={15} />
             </a>
           </div>
-          <div className="app-dialog-scroll">
+          <div className="simple-app-dialog-scroll">
             {modal === "all" ? (
               <img
                 src={source}
                 width={1524}
                 height={2155}
-                className={zoom ? "app-full-source is-zoomed" : "app-full-source"}
+                className={zoom ? "simple-app-full-source is-zoomed" : "simple-app-full-source"}
                 alt="Complete six-screen Agrivion app design sheet from the project synopsis"
               />
             ) : typeof modal === "number" ? (
-              <div className={zoom ? "app-dialog-phone is-zoomed" : "app-dialog-phone"}>
+              <div
+                className={zoom ? "simple-app-dialog-phone is-zoomed" : "simple-app-dialog-phone"}
+              >
                 <OriginalPhone index={modal} />
               </div>
             ) : null}
           </div>
-          <p className="app-dialog-note">
-            Interface concepts from the project synopsis. Use Enlarge to inspect the details.
+          <p className="simple-app-dialog-note">
+            Original interface concepts from the Agrivion synopsis. Use Zoom in to inspect details.
           </p>
         </div>
       </dialog>

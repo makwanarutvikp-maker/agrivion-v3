@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   ArrowDown,
   ArrowRight,
@@ -7,270 +7,239 @@ import {
   Bookmark,
   Bug,
   Check,
-  ChevronRight,
   CircleHelp,
   ClipboardList,
-  Droplets,
-  FlaskConical,
   Landmark,
-  Leaf,
   MessageCircle,
   Plus,
   ScanEye,
-  ShieldCheck,
-  Smartphone,
   Sprout,
   TrendingUp,
   Users,
   Wallet,
 } from "lucide-react";
 import { AppShowcase } from "@/components/site/AppShowcase";
-import { CtaLink, PageHero, Reveal, SectionTitle } from "@/components/site/primitives";
+import { CtaLink, PageHero, SectionTitle } from "@/components/site/primitives";
 
 export const Route = createFileRoute("/ecosystem")({
   head: () => ({
     meta: [
-      { title: "The Smart-Farming Ecosystem | Agrivion" },
+      { title: "Farmer App & Features | Agrivion" },
       {
         name: "description",
         content:
-          "Explore Agrivion's vision for crop and soil guidance, field monitoring, market prices, government schemes, experts, community and farm accounts alongside the agricultural rover.",
+          "Explore the planned Agrivion farmer app: crop and soil guidance, monitoring, market prices, government schemes, expert advice, community and farm records.",
       },
     ],
   }),
   component: Ecosystem,
 });
 
-const TABS = [
-  { id: "guidance", label: "Crop & soil", icon: Sprout },
-  { id: "monitoring", label: "Field health", icon: ScanEye },
-  { id: "disease", label: "Disease & pests", icon: Bug },
-  { id: "markets", label: "Market prices", icon: TrendingUp },
-  { id: "schemes", label: "Govt. schemes", icon: Landmark },
-  { id: "experts", label: "Expert advice", icon: MessageCircle },
-  { id: "community", label: "Community", icon: Users },
-  { id: "accounts", label: "Farm accounts", icon: Wallet },
+const SERVICES = [
+  {
+    id: "guidance",
+    label: "Crop & soil guidance",
+    icon: Sprout,
+    body: "Crop-selection information, soil-test records and planning checklists for local farming conditions.",
+  },
+  {
+    id: "monitoring",
+    label: "Crop monitoring",
+    icon: ScanEye,
+    body: "Field observations and planned rover and satellite monitoring to help identify areas that need a closer look.",
+  },
+  {
+    id: "disease",
+    label: "Disease & pest support",
+    icon: Bug,
+    body: "Document crop symptoms, explore planned AI assistance and seek advice on suitable next steps.",
+  },
+  {
+    id: "markets",
+    label: "Market prices",
+    icon: TrendingUp,
+    body: "Compare available prices across markets to help decide when and where to sell produce.",
+  },
+  {
+    id: "schemes",
+    label: "Government schemes",
+    icon: Landmark,
+    body: "Find relevant schemes, eligibility information, required documents and official application links.",
+  },
+  {
+    id: "experts",
+    label: "Agricultural experts",
+    icon: MessageCircle,
+    body: "A planned consultation service for questions about crops, pests, soil health and farm operations.",
+  },
+  {
+    id: "community",
+    label: "Farmer community",
+    icon: Users,
+    body: "Share practical experience, discuss local farming challenges and learn from other growers.",
+  },
+  {
+    id: "accounts",
+    label: "Farm records",
+    icon: Wallet,
+    body: "Keep income and expenses alongside crop and field-operation records.",
+  },
 ] as const;
-type TabId = (typeof TABS)[number]["id"];
+type TabId = (typeof SERVICES)[number]["id"];
 const selectClass =
-  "mt-2 w-full rounded-xl border bg-background px-3 py-3 text-sm outline-none focus:border-emerald";
+  "mt-2 min-h-12 w-full rounded-lg border bg-card px-3 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/20";
 const actionClass =
-  "inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-gradient px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:brightness-110 disabled:opacity-40";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40";
 const quietClass =
-  "inline-flex items-center gap-2 rounded-xl border px-4 py-3 text-sm transition hover:border-emerald/50 hover:bg-accent/30";
+  "inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 py-3 text-sm transition-colors hover:bg-accent";
 
 function Ecosystem() {
+  const [service, setService] = useState<TabId>("guidance");
   return (
     <>
       <PageHero
-        eyebrow="Agrivion / The connected platform"
-        title="Your whole farm. One connected vision."
-        intro="A rover for field work. Intelligence for better decisions. Experts and a community to grow with. Agrivion brings the farming journey together, from sowing to selling."
+        eyebrow="Farmer app"
+        title="Farming information, in one place."
+        intro="Agrivion is developing an app that brings together crop guidance, farm records, market information and farmer support, alongside the agricultural rover."
       >
-        <div className="flex flex-wrap items-center gap-4">
-          <a
-            href="#app-preview"
-            className="inline-flex items-center gap-2 rounded-full bg-emerald-gradient px-6 py-3.5 text-sm font-semibold text-primary-foreground"
-          >
-            Explore the app concept <ArrowDown className="size-4" />
+        <div className="flex flex-wrap items-center gap-3">
+          <a href="#services" className={actionClass}>
+            Explore app features <ArrowDown className="size-4" />
           </a>
-          <span className="rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            Building & testing the foundations
-          </span>
-        </div>
-      </PageHero>
-
-      <Reveal className="mx-auto grid max-w-7xl gap-4 px-5 pb-24 md:grid-cols-3 md:px-8">
-        {[
-          {
-            icon: Leaf,
-            n: "01",
-            title: "Know your farm",
-            body: "Crop choices, soil health, observations and timely support in one place.",
-          },
-          {
-            icon: Smartphone,
-            n: "02",
-            title: "Act with confidence",
-            body: "Connect practical guidance with planned rover controls and field operations.",
-          },
-          {
-            icon: Users,
-            n: "03",
-            title: "Grow together",
-            body: "Expert conversations, farmer knowledge, market visibility and support discovery.",
-          },
-        ].map((item) => (
-          <article data-reveal key={item.title} className="rounded-2xl border bg-card/40 p-7">
-            <div className="flex items-center justify-between">
-              <item.icon className="size-7 text-emerald-glow" />
-              <span className="font-mono text-xs text-muted-foreground">{item.n}</span>
-            </div>
-            <h2 className="mt-7 text-xl font-medium">{item.title}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
-          </article>
-        ))}
-      </Reveal>
-
-      <AppPreview />
-
-      <AppShowcase />
-
-      <section className="border-y bg-charcoal">
-        <div className="mx-auto max-w-7xl px-5 py-24 md:px-8">
-          <SectionTitle
-            eyebrow="From sowing to selling"
-            title="Support at every stage."
-            body="The bigger picture connects the things a farmer needs before, during and after a field operation."
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                n: "01",
-                title: "Prepare",
-                body: "Explore crop choices, understand soil tests and discover relevant support schemes.",
-                icon: Sprout,
-              },
-              {
-                n: "02",
-                title: "Protect",
-                body: "Track crop observations, flag possible disease or pest issues and seek expert guidance.",
-                icon: ShieldCheck,
-              },
-              {
-                n: "03",
-                title: "Operate",
-                body: "Work towards manual app control, GPS waypoint movement, spraying and inter-row cultivation.",
-                icon: Droplets,
-              },
-              {
-                n: "04",
-                title: "Sell & learn",
-                body: "Compare available market information, keep farm records and share practical experience.",
-                icon: TrendingUp,
-              },
-            ].map((item) => (
-              <article key={item.n} className="rounded-2xl border bg-background/50 p-6">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-emerald-glow">{item.n}</span>
-                  <item.icon className="size-5 text-muted-foreground" />
-                </div>
-                <h3 className="mt-7 text-xl font-medium">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-      <Reveal className="mx-auto max-w-7xl px-5 py-24 text-center md:px-8">
-        <p data-reveal className="eyebrow">
-          Built around real farming needs
-        </p>
-        <h2
-          data-reveal
-          className="mx-auto mt-4 max-w-3xl text-3xl font-semibold leading-tight md:text-5xl"
-        >
-          Help shape what belongs
-          <br />
-          in a farmer's pocket.
-        </h2>
-        <p data-reveal className="mx-auto mt-5 max-w-xl leading-relaxed text-muted-foreground">
-          We welcome feedback from farmers, FPOs, agricultural experts and research partners as the
-          ecosystem takes shape.
-        </p>
-        <div data-reveal className="mt-8 flex justify-center">
-          <CtaLink to="/contact">
-            Share your perspective <ArrowRight className="size-4" />
+          <CtaLink to="/rover" variant="ghost">
+            View the rover <ArrowRight className="size-4" />
           </CtaLink>
         </div>
-      </Reveal>
+        <p className="mt-5 text-sm text-muted-foreground">
+          In development · Features and sample screens are being built and tested.
+        </p>
+      </PageHero>
+
+      <section id="services" className="mx-auto max-w-7xl scroll-mt-28 px-5 pb-16 md:px-8">
+        <SectionTitle
+          eyebrow="App features"
+          title="Find the support you need."
+          body="Select a feature to open its example below. These previews explain the planned services; they do not connect to a live farm account."
+        />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {SERVICES.map((item) => (
+            <article key={item.id} className="flex flex-col rounded-xl border bg-card p-6">
+              <span className="grid size-11 place-items-center rounded-lg bg-accent text-primary">
+                <item.icon className="size-5" />
+              </span>
+              <h2 className="mt-5 text-base font-semibold">{item.label}</h2>
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                {item.body}
+              </p>
+              <a
+                href="#app-preview"
+                onClick={() => setService(item.id)}
+                className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary hover:underline"
+              >
+                Preview feature <ArrowRight className="size-4" />
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <AppPreview service={service} onServiceChange={setService} />
+      <AppShowcase />
+
+      <section className="border-y bg-card">
+        <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 md:grid-cols-[1fr_auto] md:items-center md:px-8">
+          <div>
+            <p className="eyebrow">Field operations</p>
+            <h2 className="mt-3 text-2xl font-semibold md:text-3xl">
+              Connected to the Agrivion rover.
+            </h2>
+            <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
+              The app is intended to support manual rover control and GPS-based field operations,
+              including spraying and inter-row cultivation. You can try both control modes in the
+              website simulation.
+            </p>
+          </div>
+          <CtaLink to="/dashboard">
+            Try rover demo <ArrowRight className="size-4" />
+          </CtaLink>
+        </div>
+      </section>
+      <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
+        <div className="flex flex-col justify-between gap-6 rounded-xl border bg-card p-6 md:flex-row md:items-center md:p-8">
+          <div>
+            <h2 className="text-xl font-semibold">Have a question about Agrivion?</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Speak with us about the app, rover development or your farming needs.
+            </p>
+          </div>
+          <CtaLink to="/contact">
+            Contact us <ArrowRight className="size-4" />
+          </CtaLink>
+        </div>
+      </section>
     </>
   );
 }
 
-function AppPreview() {
-  const [tab, setTab] = useState<TabId>("guidance");
-  function navigateTabs(event: KeyboardEvent<HTMLDivElement>) {
-    const key = event.key;
-    if (!["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Home", "End"].includes(key)) return;
-    event.preventDefault();
-    const current = TABS.findIndex((item) => item.id === tab);
-    const index =
-      key === "Home"
-        ? 0
-        : key === "End"
-          ? TABS.length - 1
-          : (current + (key === "ArrowDown" || key === "ArrowRight" ? 1 : -1) + TABS.length) %
-            TABS.length;
-    const next = TABS[index]!.id;
-    setTab(next);
-    requestAnimationFrame(() => document.getElementById(`app-tab-${next}`)?.focus());
-  }
+function AppPreview({
+  service,
+  onServiceChange,
+}: {
+  service: TabId;
+  onServiceChange: (id: TabId) => void;
+}) {
+  const selected = SERVICES.find((item) => item.id === service)!;
   return (
-    <section id="app-preview" className="scroll-mt-24 border-y bg-charcoal">
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-        <SectionTitle
-          eyebrow="Interactive app concept"
-          title="Explore the possibilities."
-          body="Select a service to see how the connected experience could work. Every screen below uses illustrative examples."
-        />
-        <div className="mt-10 overflow-hidden rounded-[2rem] border bg-background shadow-card">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b bg-card/60 px-5 py-4 md:px-7">
-            <span className="flex items-center gap-2 text-sm font-medium">
-              <span className="size-2 rounded-full bg-emerald-glow" />
-              Agrivion / Farmer workspace
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-emerald-glow">
-              Concept preview · Sample data
-            </span>
+    <section id="app-preview" className="scroll-mt-28 border-y bg-accent/35">
+      <div className="mx-auto max-w-7xl px-5 py-14 md:px-8">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="eyebrow">Example workspace</p>
+            <h2 className="mt-3 text-2xl font-semibold md:text-3xl">Preview an app feature.</h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Choose a feature and try its sample controls. All information here is illustrative.
+            </p>
           </div>
-          <div className="grid lg:grid-cols-[230px_1fr]">
-            <div
-              role="tablist"
-              aria-label="Farmer app services"
-              onKeyDown={navigateTabs}
-              className="grid grid-cols-2 gap-2 border-b bg-card/25 p-4 sm:grid-cols-4 lg:grid-cols-1 lg:border-b-0 lg:border-r"
+          <label className="w-full text-sm font-medium md:max-w-xs">
+            Choose a feature
+            <select
+              value={service}
+              onChange={(event) => onServiceChange(event.target.value as TabId)}
+              className={selectClass}
             >
-              {TABS.map((item) => (
-                <button
-                  key={item.id}
-                  id={`app-tab-${item.id}`}
-                  type="button"
-                  role="tab"
-                  aria-selected={tab === item.id}
-                  aria-controls="app-concept-panel"
-                  tabIndex={tab === item.id ? 0 : -1}
-                  onClick={() => setTab(item.id)}
-                  className={`flex items-center gap-2.5 rounded-xl px-3 py-3.5 text-left text-xs transition sm:text-sm ${tab === item.id ? "bg-accent text-emerald-glow" : "text-muted-foreground hover:bg-accent/35 hover:text-foreground"}`}
-                >
-                  <item.icon className="size-4 shrink-0" />
-                  <span className="flex-1">{item.label}</span>
-                  <ChevronRight className="hidden size-3.5 lg:block" />
-                </button>
+              {SERVICES.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.label}
+                </option>
               ))}
-            </div>
-            <div
-              id="app-concept-panel"
-              role="tabpanel"
-              aria-labelledby={`app-tab-${tab}`}
-              tabIndex={0}
-              className="min-w-0 p-5 outline-none md:p-8 lg:min-h-[590px] lg:p-10"
-            >
-              {tab === "guidance" && <GuidanceDemo />}
-              {tab === "monitoring" && <MonitoringDemo />}
-              {tab === "disease" && <DiseaseDemo />}
-              {tab === "markets" && <MarketDemo />}
-              {tab === "schemes" && <SchemesDemo />}
-              {tab === "experts" && <ExpertsDemo />}
-              {tab === "community" && <CommunityDemo />}
-              {tab === "accounts" && <AccountsDemo />}
-            </div>
+            </select>
+          </label>
+        </div>
+        <div className="mt-7 overflow-hidden rounded-xl border bg-card">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b bg-accent/30 px-5 py-4 md:px-7">
+            <span className="flex items-center gap-2 text-sm font-semibold">
+              <selected.icon className="size-4 text-primary" />
+              {selected.label}
+            </span>
+            <span className="rounded-full border bg-card px-3 py-1 text-xs text-muted-foreground">
+              Sample data · In development
+            </span>
           </div>
-          <div className="flex items-start gap-2.5 border-t px-5 py-4 text-xs leading-relaxed text-muted-foreground md:px-7">
+          <div key={service} className="p-5 md:p-8 lg:p-10">
+            {service === "guidance" && <GuidanceDemo />}
+            {service === "monitoring" && <MonitoringDemo />}
+            {service === "disease" && <DiseaseDemo />}
+            {service === "markets" && <MarketDemo />}
+            {service === "schemes" && <SchemesDemo />}
+            {service === "experts" && <ExpertsDemo />}
+            {service === "community" && <CommunityDemo />}
+            {service === "accounts" && <AccountsDemo />}
+          </div>
+          <p className="flex items-start gap-2.5 border-t px-5 py-4 text-xs leading-relaxed text-muted-foreground md:px-7">
             <CircleHelp className="mt-0.5 size-4 shrink-0" />
-            Interactive concept only. These services are being designed and tested. No live market
-            feed, AI diagnosis, expert message or farm connection is active here.
-          </div>
+            These examples are not connected to live market feeds, AI diagnosis, expert messaging or
+            a farm account.
+          </p>
         </div>
       </div>
     </section>

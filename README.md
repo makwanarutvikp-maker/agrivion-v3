@@ -2,17 +2,17 @@
 
 **Smarter Fields. Better Decisions. Stronger Farmers.**
 
-A responsive presentation website for Agrivion's smart-farming ecosystem, combining agricultural robotics, crop guidance and farmer community. This repository contains the Version 3 frontend and original project assets.
+A professional public website for Agrivion's smart-farming ecosystem, combining agricultural robotics, crop guidance and farmer community. The interface uses clear navigation, readable light layouts and straightforward controls. This repository contains the frontend and original project assets.
 
 Agrivion is in the building and testing phase. Rover movement, GPS navigation, market prices and other interactive demonstrations use illustrative data. They do not connect to real hardware or live agricultural services.
 
 ## Explore the site
 
-- **Home:** cinematic hero, animated typography, scroll effects and a large app design gallery.
+- **Home:** product overview, useful feature summaries, clear next steps and an accessible app design gallery.
 - **Ecosystem:** crop and soil guidance, crop observations, disease and pest support concepts, sample market comparisons, scheme links, experts, community and farm accounts.
 - **Rover:** original concept imagery and CAD studies, modular tools and development plans.
 - **Technology:** control architecture, navigation, safety and validation approach.
-- **Field Lab:** continuous manual driving, automatic coverage routes, custom waypoints, operation effects, emergency stop and fullscreen presentation.
+- **Rover Demo:** continuous manual driving, automatic coverage routes, optional custom waypoints, emergency stop and fullscreen view.
 - **Intelligence:** illustrative computer-vision and satellite-monitoring interfaces.
 - **Applications:** spraying, cultivation, scouting and research use cases.
 - **About:** project proposer, methodology, development phases and proposed business models.
@@ -43,11 +43,11 @@ npm run build
 
 The project uses the existing TanStack Start/Vite setup. Production files are generated in `.output/`. No backend feature services, database or hardware integration are implemented.
 
-## Present the project
+## Interface and demos
 
-Select **Present** on the homepage to enable the eight-section pitch controls. Use the arrows or Page Up/Page Down to move between sections, **Shift+D** to open the rover demo, and **Esc** to exit. Presentation shortcuts are inactive in form controls and the steering study.
+The public interface uses a steady navigation bar and direct links to the rover, farmer app, demo, company information and contact details. Presentation controls, custom cursor effects, magnetic buttons and word-by-word animations are disabled.
 
-The app gallery includes a guided **Play app tour** control alongside manual navigation. The engineering panel switches between the original annotated CAD and an interactive **Steer it** geometry study. The homepage field preview also supports sample lane changes and a latched emergency stop. All engineering illustrations and field values are demonstrations, not validated hardware specifications.
+The app gallery has six labelled screen choices, previous/next controls and an enlarged original-image view. The engineering panel switches between original CAD and a steering geometry study. The rover demo offers manual control and GPS navigation with sample routes. All engineering illustrations and field values are demonstrations, not validated hardware specifications.
 
 ## Technology
 

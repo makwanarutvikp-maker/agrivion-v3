@@ -47,11 +47,11 @@ import "@/components/site/rover-demo.css";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Agrivion Field Lab | Drive the Rover" },
+      { title: "Rover Simulator | Agrivion" },
       {
         name: "description",
         content:
-          "Take the controls in an interactive Agrivion rover simulation. Explore smooth manual driving, GPS coverage routes and custom waypoints.",
+          "Try Agrivion's manual rover controls and GPS route planning in a browser simulation. No hardware is connected.",
       },
     ],
   }),
@@ -118,14 +118,14 @@ function Dashboard() {
       : sim.mode === "manual"
         ? moving
           ? "Manual drive active"
-          : "Ready for your command"
+          : "Ready to drive"
         : sim.running
           ? "Following planned route"
           : sim.progress >= 1
             ? "Mission complete"
             : sim.progress > 0
               ? "Mission paused"
-              : "Route ready to launch";
+              : "Ready to start route";
 
   const syncControls = () => {
     const directions = [
@@ -264,27 +264,28 @@ function Dashboard() {
     <div className="field-lab">
       <div className="field-lab-intro">
         <div>
-          <p className="eyebrow">THE AGRIVION FIELD LAB / 02</p>
-          <h1>
-            Your field.
-            <br />
-            <span>In motion.</span>
-          </h1>
+          <p className="eyebrow">Product preview</p>
+          <h1>Rover simulator</h1>
+          <p className="field-lab-description">
+            Try the controls and explore GPS route planning in a sample field.
+          </p>
         </div>
         <div className="field-lab-intro-copy">
-          <span className="demo-live-label">
-            <i /> INTERACTIVE CONCEPT
-          </span>
-          <p>
-            Take the wheel. Plot the mission.
-            <br />
-            Experience the two sides of smarter fieldwork.
-          </p>
-          <a href="#control-deck">
-            Enter the field <ArrowDown size={16} />
-          </a>
+          <span className="demo-live-label">Browser simulation</span>
+          <p>No hardware connected. Rover capabilities are in development and testing.</p>
         </div>
       </div>
+      <ol className="demo-quick-start" aria-label="How to use the simulator">
+        <li>
+          <span>1</span>Choose manual or GPS mode
+        </li>
+        <li>
+          <span>2</span>Drive with arrows or start a route
+        </li>
+        <li>
+          <span>3</span>Pause or stop at any time
+        </li>
+      </ol>
       <div
         ref={deck}
         id="control-deck"
@@ -318,13 +319,11 @@ function Dashboard() {
               <Navigation size={18} />
             </span>
             <span>
-              AGRIVION <small>COMMAND CENTRE</small>
+              Field preview <small>Interactive rover simulation</small>
             </span>
           </div>
           <div className="deck-toolbar-actions">
-            <span className="demo-live-label">
-              <i /> SIMULATION
-            </span>
+            <span className="demo-live-label">Simulated data</span>
             <button
               title={fullscreen ? "Exit fullscreen" : "Open fullscreen"}
               aria-label={fullscreen ? "Exit fullscreen" : "Open fullscreen"}
@@ -374,7 +373,7 @@ function Dashboard() {
                   )}
                   <span>
                     {mode === "manual" ? <Gamepad2 size={17} /> : <RouteIcon size={17} />}{" "}
-                    {mode === "manual" ? "Manual drive" : "Auto · GPS"}
+                    {mode === "manual" ? "Manual control" : "GPS route"}
                   </span>
                 </button>
               ))}
@@ -401,7 +400,7 @@ function Dashboard() {
                   <i className={moving ? "is-active" : ""} /> {field.name.toUpperCase()} /{" "}
                   {field.rows} LANES
                 </span>
-                <span>{sim.mode === "manual" ? "DIRECT CONTROL" : "GPS NAVIGATION"}</span>
+                <span>{sim.mode === "manual" ? "Manual control" : "GPS route"}</span>
               </div>
               <div className="field-overlay-bottom">
                 <span>
@@ -409,7 +408,7 @@ function Dashboard() {
                 </span>
                 <span>
                   {sim.mode === "manual"
-                    ? "WASD / ARROW KEYS"
+                    ? "Arrow keys / WASD"
                     : routeType === "custom"
                       ? `${customPoints.length} / 12 WAYPOINTS`
                       : `${percent}% COMPLETE`}
@@ -435,17 +434,12 @@ function Dashboard() {
             <div className="deck-telemetry">
               <Metric
                 icon={Gauge}
-                label="Demo speed"
+                label="Speed"
                 value={moving ? `${sim.speed.toFixed(1)}` : "0.0"}
                 unit="m/s"
               />
-              <Metric
-                icon={Battery}
-                label="Sample battery"
-                value={sim.battery.toFixed(0)}
-                unit="%"
-              />
-              <Metric icon={Satellite} label="Sample GNSS" value="11" unit="sats" />
+              <Metric icon={Battery} label="Battery" value={sim.battery.toFixed(0)} unit="%" />
+              <Metric icon={Satellite} label="GPS satellites" value="11" unit="sats" />
               <Metric
                 icon={Crosshair}
                 label={sim.mode === "manual" ? "Heading" : "Route progress"}
@@ -460,13 +454,13 @@ function Dashboard() {
             {sim.mode === "manual" && (
               <div className="mobile-drive-controls">
                 <div>
-                  <span>YOU’RE IN CONTROL</span>
+                  <span>Manual controls</span>
                   <p>
                     Hold to drive.
                     <br />
                     Release to stop.
                   </p>
-                  <small>The field stays in view.</small>
+                  <small>Or use the arrow keys.</small>
                 </div>
                 <DrivePad {...driveProps} />
               </div>
@@ -476,27 +470,23 @@ function Dashboard() {
                 <i className={sim.estop ? "is-stop" : ""} />
                 {status}
               </span>
-              <span>ILLUSTRATIVE DATA</span>
+              <span>Simulation only</span>
             </div>
           </div>
           <aside className="deck-controls">
             <div className="control-title">
-              <span>
-                0{sim.mode === "manual" ? "1" : "2"} /{" "}
-                {sim.mode === "manual" ? "MANUAL" : "AUTOMATIC"}
-              </span>
-              <h2>{sim.mode === "manual" ? "You’re in control." : "Set it in motion."}</h2>
+              <h2>{sim.mode === "manual" ? "Drive the rover" : "Plan a GPS route"}</h2>
               <p>
                 {sim.mode === "manual"
-                  ? "Press and hold a direction. Release to stop. Or focus the field and use WASD / arrow keys."
-                  : "Follow the crop lanes automatically, or mark your own waypoints on the field."}
+                  ? "Hold an arrow to move. Release to stop. You can also select the field and use your keyboard."
+                  : "Choose a sample field, then start the route. Select custom points to draw your own path."}
               </p>
             </div>
             {sim.mode === "manual" ? (
               <div className="desktop-drive-controls">
                 <DrivePad {...driveProps} />
                 <p className="drive-hint">
-                  HOLD TO MOVE <span>·</span> RELEASE TO STOP
+                  Hold to move <span>·</span> Release to stop
                 </p>
               </div>
             ) : (
@@ -512,7 +502,7 @@ function Dashboard() {
                         reset();
                       }}
                     >
-                      {type === "coverage" ? "Row coverage" : "My waypoints"}
+                      {type === "coverage" ? "Follow crop rows" : "Custom points"}
                     </button>
                   ))}
                 </div>
@@ -536,49 +526,52 @@ function Dashboard() {
                 </label>
                 {routeType === "custom" && (
                   <div className="waypoint-editor">
-                    <p>Click the field to add up to 12 points, or enter coordinates below.</p>
-                    <div>
-                      <label>
-                        X
-                        <input
-                          type="number"
-                          min="16"
-                          max="84"
-                          value={pointX}
-                          onChange={(event) => setPointX(event.target.value)}
-                          disabled={sim.running}
-                        />
-                      </label>
-                      <label>
-                        Y
-                        <input
-                          type="number"
-                          min="18"
-                          max="82"
-                          value={pointY}
-                          onChange={(event) => setPointY(event.target.value)}
-                          disabled={sim.running}
-                        />
-                      </label>
-                      <button
-                        disabled={
-                          sim.running ||
-                          locked ||
-                          customPoints.length >= 12 ||
-                          pointX === "" ||
-                          pointY === "" ||
-                          !Number.isFinite(Number(pointX)) ||
-                          !Number.isFinite(Number(pointY)) ||
-                          +pointX < 16 ||
-                          +pointX > 84 ||
-                          +pointY < 18 ||
-                          +pointY > 82
-                        }
-                        onClick={() => addPoint({ x: +pointX, y: +pointY })}
-                      >
-                        Add
-                      </button>
-                    </div>
+                    <p>Click the field to add 2–12 points. The rover will follow them in order.</p>
+                    <details className="coordinate-settings">
+                      <summary>Enter coordinates instead</summary>
+                      <div>
+                        <label>
+                          X
+                          <input
+                            type="number"
+                            min="16"
+                            max="84"
+                            value={pointX}
+                            onChange={(event) => setPointX(event.target.value)}
+                            disabled={sim.running}
+                          />
+                        </label>
+                        <label>
+                          Y
+                          <input
+                            type="number"
+                            min="18"
+                            max="82"
+                            value={pointY}
+                            onChange={(event) => setPointY(event.target.value)}
+                            disabled={sim.running}
+                          />
+                        </label>
+                        <button
+                          disabled={
+                            sim.running ||
+                            locked ||
+                            customPoints.length >= 12 ||
+                            pointX === "" ||
+                            pointY === "" ||
+                            !Number.isFinite(Number(pointX)) ||
+                            !Number.isFinite(Number(pointY)) ||
+                            +pointX < 16 ||
+                            +pointX > 84 ||
+                            +pointY < 18 ||
+                            +pointY > 82
+                          }
+                          onClick={() => addPoint({ x: +pointX, y: +pointY })}
+                        >
+                          Add
+                        </button>
+                      </div>
+                    </details>
                     <button
                       className="undo-waypoint"
                       disabled={sim.running || !customPoints.length}
@@ -587,13 +580,13 @@ function Dashboard() {
                         setSim(resetMission);
                       }}
                     >
-                      <Undo2 size={12} /> Undo point
+                      <Undo2 size={14} /> Remove last point
                     </button>
                   </div>
                 )}
                 <div className="mission-progress">
                   <span>
-                    ROUTE COVERAGE <b>{percent}%</b>
+                    Route progress <b>{percent}%</b>
                   </span>
                   <div>
                     <div style={{ width: `${percent}%` }} />
@@ -606,43 +599,50 @@ function Dashboard() {
                 >
                   {sim.running ? <Pause size={17} /> : <Play size={17} />}
                   {sim.running
-                    ? "Pause mission"
+                    ? "Pause route"
                     : sim.progress >= 1
                       ? "Run route again"
                       : sim.progress > 0
-                        ? "Resume mission"
-                        : "Start mission"}
+                        ? "Resume route"
+                        : "Start route"}
                 </button>
                 {wps.length < 2 && (
                   <p className="route-help">Add at least two waypoints to start.</p>
                 )}
               </div>
             )}
-            <div className="demo-operation">
-              <span className="control-label">FIELD OPERATION</span>
-              <div role="group" aria-label="Planned operation">
-                {TASKS.map((task) => (
-                  <button
-                    key={task.name}
-                    aria-pressed={operation === task.name}
-                    onClick={() => setOperation(task.name)}
-                  >
-                    <task.icon size={17} />
-                    {task.label}
-                  </button>
-                ))}
+            <details className="demo-settings">
+              <summary>More simulation options</summary>
+              <div className="demo-operation">
+                <span className="control-label">Field operation</span>
+                <div role="group" aria-label="Planned operation">
+                  {TASKS.map((task) => (
+                    <button
+                      key={task.name}
+                      aria-pressed={operation === task.name}
+                      onClick={() => setOperation(task.name)}
+                    >
+                      <task.icon size={17} />
+                      {task.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="demo-pace">
-              <span className="control-label">DEMO PACE</span>
-              <div role="group" aria-label="Demo speed">
-                {[0.5, 1, 2].map((speed) => (
-                  <button key={speed} aria-pressed={pace === speed} onClick={() => setPace(speed)}>
-                    {speed}×
-                  </button>
-                ))}
+              <div className="demo-pace">
+                <span className="control-label">Simulation speed</span>
+                <div role="group" aria-label="Demo speed">
+                  {[0.5, 1, 2].map((speed) => (
+                    <button
+                      key={speed}
+                      aria-pressed={pace === speed}
+                      onClick={() => setPace(speed)}
+                    >
+                      {speed}×
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            </details>
             <div className="deck-safety">
               <button
                 onClick={() => {
@@ -652,10 +652,10 @@ function Dashboard() {
                 aria-pressed={sim.estop}
               >
                 <OctagonX size={16} />
-                {sim.estop ? "Reset E-stop" : "Emergency stop"}
+                {sim.estop ? "Release stop" : "Emergency stop"}
               </button>
               <button aria-label="Reset simulation" title="Reset simulation" onClick={reset}>
-                <RotateCcw size={16} />
+                <RotateCcw size={16} /> Reset
               </button>
             </div>
             <p className="keyboard-note">
@@ -665,46 +665,32 @@ function Dashboard() {
         </div>
       </div>
       <p className="demo-footnote">
-        <span>FRONTEND SIMULATION</span> No hardware is connected. Movement, battery, GNSS and speed
-        are illustrative. All rover capabilities are in development and testing.
+        Movement, battery, GPS and speed values are illustrative. This preview does not control a
+        real rover.
       </p>
       <div className="demo-explain-grid">
         <article>
-          <span>01 / MANUAL</span>
-          <h2>
-            Human judgment.
-            <br />
-            Precise direction.
-          </h2>
+          <h2>Manual control</h2>
           <p>
-            Continuous controls make the relationship between your input and the rover easy to
-            explore. Field limits keep this demo inside its test area.
+            Hold the direction buttons or use arrow keys after selecting the field. Release the
+            controls to stop. The rover stays inside the sample field.
           </p>
         </article>
         <article>
-          <span>02 / GPS-BASED</span>
-          <h2>
-            A planned path.
-            <br />A clearer operation.
-          </h2>
+          <h2>GPS routes</h2>
           <p>
-            Watch lane coverage and smooth headland turns, or create a custom route. Pause, adjust
-            and resume the demonstration at your own pace.
+            Follow the crop rows or click the field to create your own route. You can pause, resume
+            or reset the simulation.
           </p>
         </article>
         <article>
-          <span>THE NEXT STEP</span>
-          <h2>
-            From this concept
-            <br />
-            to the real field.
-          </h2>
+          <h2>Development status</h2>
           <p>
             Navigation accuracy, implement performance and safety will be tested through supervised
             trials.
           </p>
           <Link to="/technology">
-            Explore the engineering <ArrowRight size={15} />
+            Learn about the technology <ArrowRight size={15} />
           </Link>
         </article>
       </div>

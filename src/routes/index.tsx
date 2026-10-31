@@ -1,331 +1,272 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { ScrollText, InteractiveCard } from "@/components/site/MotionEffects";
-import { EngineeringStudy } from "@/components/site/EngineeringStudy";
-import { DevelopmentRoadmap } from "@/components/site/DevelopmentRoadmap";
-
 import {
-  ArrowUpRight,
   ArrowRight,
-  Play,
-  Sprout,
-  Cpu,
-  Users,
-  Leaf,
+  ArrowUpRight,
+  Gamepad2,
   Navigation,
-  Plus,
-  Minus,
+  Sprout,
+  ChartNoAxesCombined,
+  Users,
+  BookOpen,
+  ShieldCheck,
+  ChevronDown,
+  Tractor,
+  Smartphone,
+  Mail,
 } from "lucide-react";
-import { CtaLink, Reveal, SectionTitle, StatusTag } from "@/components/site/primitives";
-import { DemoTeaser } from "@/components/site/DemoTeaser";
-import { HeroV2, VisionMarquee } from "@/components/site/HeroV2";
+import { CtaLink, StatusTag } from "@/components/site/primitives";
 import { AppShowcase } from "@/components/site/AppShowcase";
+import hero from "@/assets/hero-rover.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Agrivion | From Sowing to Selling" },
+      { title: "Agrivion | Smart Farming, Made Accessible" },
       {
         name: "description",
         content:
-          "A smart-farming ecosystem in development: agricultural robotics, practical guidance and a connected farmer community. Explore the Agrivion vision and interactive demos.",
+          "Explore Agrivion's agricultural rover and farmer app in development. Field robotics, crop guidance, market information and farmer community, from sowing to selling.",
       },
-      { property: "og:title", content: "Agrivion — Smarter Fields. Stronger Farmers." },
+      { property: "og:title", content: "Agrivion | Smart Farming, Made Accessible" },
     ],
   }),
   component: Home,
 });
-
-const pillars = [
+const services = [
   {
-    icon: Cpu,
-    title: "Work the field.",
-    tag: "01 / AGRIVION ROVER",
-    body: "A modular 4WD platform, with manual control and GPS navigation under development. Designed for spraying, cultivation and crop observation.",
-    to: "/rover",
-    image: "/media/rover-concept.webp",
-    note: "AI-generated concept from the synopsis",
+    icon: Sprout,
+    title: "Crop & soil guidance",
+    copy: "Crop selection, soil-health information and practical growing guidance.",
   },
   {
-    icon: Leaf,
-    title: "Know your crop.",
-    tag: "02 / FARMER APP",
-    body: "Bring crop selection, soil health, pest support, market information and government schemes into one accessible place.",
-    to: "/ecosystem",
-    image: "/media/app-overview.webp",
-    note: "App interface concepts from the synopsis",
+    icon: ShieldCheck,
+    title: "Crop health support",
+    copy: "Planned disease and pest assistance, with expert advice for follow-up.",
+  },
+  {
+    icon: ChartNoAxesCombined,
+    title: "Market information",
+    copy: "Compare available market prices to support selling decisions.",
+  },
+  {
+    icon: BookOpen,
+    title: "Schemes & support",
+    copy: "Find eligibility details, required documents and official scheme links.",
   },
   {
     icon: Users,
-    title: "Grow together.",
-    tag: "03 / KNOWLEDGE & COMMUNITY",
-    body: "Connect with agricultural experts and fellow farmers. Share experiences, ask better questions and learn from the field.",
-    to: "/ecosystem",
-    image: "/media/app-overview.webp",
-    note: "Expert and community services are planned",
+    title: "Experts & community",
+    copy: "Ask questions, share experience and learn from other farmers.",
   },
-];
-const challenges = [
-  [
-    "01",
-    "Labour pressure",
-    "Rising costs and fewer available workers make timely field operations harder.",
-  ],
-  [
-    "02",
-    "Crop uncertainty",
-    "Disease, pests and changing field conditions demand timely observation.",
-  ],
-  [
-    "03",
-    "Access to technology",
-    "High costs and complex equipment can put modern tools beyond small farms.",
-  ],
-  [
-    "04",
-    "Scattered information",
-    "Soil advice, market prices and support schemes are difficult to navigate together.",
-  ],
+  {
+    icon: Smartphone,
+    title: "Farm records",
+    copy: "Bring observations, expenses and everyday farm information together.",
+  },
 ];
 const faqs = [
   [
-    "What stage is Agrivion at?",
-    "Agrivion is in the building and testing phase. The rover and digital ecosystem are being developed. Website demonstrations use illustrative data and are not evidence of validated field performance.",
+    "Can I buy or use Agrivion today?",
+    "Agrivion is being built and tested. The rover and farmer app are not available as launched products yet. Contact us for development enquiries or to discuss a possible supervised pilot.",
   ],
   [
-    "How will the rover operate?",
-    "The proposed rover has two modes: farmer-controlled manual operation through an app, and GPS-based navigation towards selected waypoints. Both require development, calibration and supervised testing.",
+    "What can I try on this website?",
+    "You can explore the original design images and app screens, drive the simulated rover manually, and try a GPS route. Website examples use sample data and do not connect to hardware.",
   ],
   [
-    "Who is the platform designed for?",
-    "Indian farmers, especially small and marginal farmers, as well as FPOs, agricultural institutions and service providers. The cost and shared-service model will be assessed through pilot validation.",
-  ],
-  [
-    "How can I collaborate?",
-    "We welcome technical mentoring, research collaboration, pilot locations and funding discussions. Use the collaboration page to prepare an email to the project proposer.",
+    "Who is Agrivion for?",
+    "Agrivion is being developed for Indian farmers, FPOs, agricultural institutions and service providers. Field suitability, affordability and practical benefits will be evaluated through testing.",
   ],
 ];
 function Home() {
-  const [faq, setFaq] = useState<number | null>(0);
   return (
     <>
-      <HeroV2 />
-      <VisionMarquee />
-      <Reveal className="paper-section">
-        <div id="why" className="section-shell scroll-mt-28">
-          <div className="grid gap-9 md:grid-cols-[.6fr_1.4fr]">
-            <p data-reveal className="eyebrow">
-              01 / THE REASON WE BUILD
+      <section className="pro-home-hero">
+        <div className="pro-container pro-hero-grid">
+          <div className="pro-hero-copy">
+            <p className="eyebrow">Technology for Indian agriculture</p>
+            <h1>
+              Smart farming.
+              <br />
+              <span>Made accessible.</span>
+            </h1>
+            <p className="pro-hero-description">
+              A field rover and farmer app, designed to bring practical technology, useful
+              information and farming support together.
             </p>
-            <div>
-              <ScrollText
-                className="v2-reason-title"
-                text="Farming is demanding. Support should be simpler."
-              />
-              <p data-reveal className="mt-6 max-w-xl text-lg leading-relaxed opacity-70">
-                Small farms deserve tools that understand their reality. Agrivion starts with the
-                everyday challenges of Indian agriculture.
-              </p>
+            <div className="pro-hero-actions">
+              <CtaLink to="/rover">
+                Explore the rover <ArrowRight size={17} />
+              </CtaLink>
+              <CtaLink to="/ecosystem" variant="ghost">
+                Discover the farmer app
+              </CtaLink>
+            </div>
+            <div className="pro-development-note">
+              <StatusTag status="prototype" />
+              <span>Building and testing, with farmers in mind.</span>
             </div>
           </div>
-          <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {challenges.map(([num, title, body]) => (
-              <InteractiveCard key={num} className="challenge-surface">
-                <article data-reveal data-blur>
-                  <span className="problem-index font-mono text-xs opacity-60">/{num}</span>
-                  <h3 className="mt-7 text-xl font-semibold">{title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed opacity-65">{body}</p>
-                </article>
-              </InteractiveCard>
-            ))}
-          </div>
+          <figure className="pro-hero-visual">
+            <img
+              src={hero}
+              alt="Agrivion agricultural rover concept in a crop field"
+              width={1536}
+              height={1024}
+              fetchPriority="high"
+            />
+            <div className="pro-visual-label">
+              <Tractor size={20} />
+              <div>
+                <strong>Agrivion Rover</strong>
+                <span>4WD · Manual & GPS modes in development</span>
+              </div>
+            </div>
+            <figcaption>Concept illustration · Prototype in development</figcaption>
+          </figure>
         </div>
-      </Reveal>
-      <Reveal id="ecosystem" className="section-shell topography-surface">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionTitle
-            eyebrow="02 / THE CONNECTED ECOSYSTEM"
-            title="More than a rover."
-            body="Technology in the field. Knowledge in your hand. A community by your side."
-          />
-          <Link to="/ecosystem" className="text-link">
-            Meet the ecosystem <ArrowUpRight className="size-4" />
+      </section>
+      <section className="pro-quick-links pro-container" aria-label="Start exploring">
+        {[
+          {
+            to: "/dashboard",
+            icon: Gamepad2,
+            title: "Try the rover demo",
+            copy: "Explore manual and GPS controls",
+          },
+          {
+            to: "/ecosystem",
+            icon: Smartphone,
+            title: "Explore the farmer app",
+            copy: "See planned tools and original screens",
+          },
+          {
+            to: "/contact",
+            icon: Mail,
+            title: "Talk to Agrivion",
+            copy: "Product questions and collaboration",
+          },
+        ].map((item) => (
+          <Link to={item.to} className="pro-quick-link" key={item.to}>
+            <span className="pro-icon-box">
+              <item.icon size={23} />
+            </span>
+            <span>
+              <strong>{item.title}</strong>
+              <small>{item.copy}</small>
+            </span>
+            <ArrowRight size={18} />
+          </Link>
+        ))}
+      </section>
+      <section className="pro-container pro-section">
+        <div className="pro-section-heading">
+          <div className="pro-section-title">
+            <p className="eyebrow">From sowing to selling</p>
+            <h2>Support for the whole farming journey.</h2>
+            <p>
+              Farm work comes with labour pressure, crop risks and scattered information. Our
+              connected platform is being developed around these everyday needs.
+            </p>
+          </div>
+          <Link className="pro-text-link" to="/ecosystem">
+            All app features <ArrowRight size={16} />
           </Link>
         </div>
-        <div className="v2-pillar-grid">
-          {pillars.map((item, i) => (
-            <Link
-              to={item.to}
-              className="v2-pillar"
-              key={item.title}
-              data-reveal
-              data-cursor="Explore"
-            >
-              <span className="v2-pillar-number" aria-hidden="true">
-                0{i + 1}
-              </span>
-              <span className="v2-pillar-icon">
-                <item.icon size={24} />
+        <div className="pro-service-grid">
+          {services.map((item) => (
+            <article className="pro-service-card" key={item.title}>
+              <span className="pro-icon-box">
+                <item.icon size={23} />
               </span>
               <h3>{item.title}</h3>
-              <p>{item.body}</p>
-              <span className="v2-pillar-link">
-                {i === 0 ? "EXPLORE THE ROVER" : "EXPLORE THE PLATFORM"}
-                <ArrowUpRight size={18} />
-              </span>
-            </Link>
+              <p>{item.copy}</p>
+            </article>
           ))}
         </div>
-      </Reveal>
-      <AppShowcase />
-      <Reveal id="engineering" className="border-y bg-charcoal topography-surface">
-        <div className="section-shell grid items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
-          <div>
-            <p data-reveal className="eyebrow">
-              03 / BUILT THROUGH ITERATION
-            </p>
-            <h2 data-reveal className="editorial-title mt-5">
-              An idea.
-              <br />
-              Taking shape.
-            </h2>
-            <p data-reveal className="mt-6 max-w-md text-muted-foreground">
-              A modular chassis. Carefully considered steering. A controller designed around the
-              field. Explore the engineering work documented in our synopsis.
-            </p>
-            <div data-reveal className="mt-8 flex flex-wrap gap-3">
-              <StatusTag status="prototype" />
-              <span className="rounded-full border px-3 py-1 text-xs text-muted-foreground">
-                CAD & interface concepts
-              </span>
-            </div>
-            <div data-reveal className="mt-9">
-              <CtaLink to="/rover">
-                Inside the rover <ArrowRight className="size-4" />
-              </CtaLink>
-            </div>
-          </div>
-          <EngineeringStudy />
-        </div>
-      </Reveal>
-      <Reveal id="field-demo" className="section-shell">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div data-reveal className="v2-demo-preview order-2 relative lg:order-1">
-            <DemoTeaser />
-          </div>
-          <div className="order-1 lg:order-2">
-            <SectionTitle
-              eyebrow="04 / TAKE THE CONTROLS"
-              title="See the vision in motion."
-              body="Explore manual driving and GPS waypoint missions in the interactive rover demo. Plan a route, follow progress and test the emergency stop."
+        <p className="pro-section-note">
+          App features are in development. Agricultural guidance and data services will require
+          suitable sources and validation.
+        </p>
+      </section>
+      <section className="pro-product-section">
+        <div className="pro-container pro-section pro-rover-summary">
+          <div className="pro-product-image">
+            <img
+              src="/media/rover-concept.webp"
+              alt="Original Agrivion four-wheel agricultural rover concept from the project synopsis"
+              width={885}
+              height={680}
+              loading="lazy"
             />
-            <div data-reveal className="mt-8 grid grid-cols-2 gap-5 border-y py-6">
-              <div>
-                <Navigation className="size-5 text-emerald-glow" />
-                <p className="mt-3 text-sm">Manual + GPS modes</p>
-              </div>
-              <div>
-                <Sprout className="size-5 text-emerald-glow" />
-                <p className="mt-3 text-sm">Illustrative farm data</p>
-              </div>
-            </div>
-            <div data-reveal className="mt-8">
-              <CtaLink to="/dashboard">
-                <Play className="size-4" /> Launch rover demo
-              </CtaLink>
-            </div>
-            <p data-reveal className="mt-5 text-xs text-muted-foreground">
-              Browser simulation. No hardware connected.
+            <span>Original synopsis concept · AI-generated illustration</span>
+          </div>
+          <div>
+            <p className="eyebrow">Agrivion Rover</p>
+            <h2>Practical tools for fieldwork.</h2>
+            <p className="pro-body">
+              A modular 4WD rover for supervised development of spraying, inter-row cultivation and
+              crop observation.
             </p>
+            <div className="pro-mode-info">
+              <Gamepad2 size={23} />
+              <div>
+                <h3>Manual control</h3>
+                <p>
+                  Control movement through a mobile interface. In the demo, hold a direction to move
+                  and release to stop.
+                </p>
+              </div>
+            </div>
+            <div className="pro-mode-info">
+              <Navigation size={23} />
+              <div>
+                <h3>GPS-based navigation</h3>
+                <p>
+                  Set a route or waypoints for guided movement. Navigation and safety remain under
+                  testing.
+                </p>
+              </div>
+            </div>
+            <div className="pro-hero-actions">
+              <CtaLink to="/dashboard">
+                Try the interactive demo <ArrowRight size={16} />
+              </CtaLink>
+              <Link to="/rover" className="pro-text-link">
+                Rover details <ArrowUpRight size={16} />
+              </Link>
+            </div>
           </div>
         </div>
-      </Reveal>
-      <Reveal id="roadmap" className="paper-section">
-        <div className="section-shell">
-          <p data-reveal className="eyebrow">
-            05 / A PRACTICAL PATH FORWARD
-          </p>
-          <h2 data-reveal className="editorial-title mt-5 max-w-3xl">
-            Build. Test. Learn.
-            <br />
-            Grow with the farmer.
-          </h2>
-          <DevelopmentRoadmap />
-          <Link
-            to="/about"
-            className="mt-10 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-8"
-          >
-            Explore the development plan <ArrowUpRight className="size-4" />
-          </Link>
+      </section>
+      <AppShowcase />
+      <section className="pro-container pro-section pro-faq">
+        <div className="pro-section-title">
+          <p className="eyebrow">Helpful to know</p>
+          <h2>A few common questions.</h2>
+          <p>Clear information about what we are building and what you can explore today.</p>
         </div>
-      </Reveal>
-      <Reveal className="section-shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-        <SectionTitle eyebrow="A FEW THINGS TO KNOW" title="Built on clear expectations." />
         <div>
-          {faqs.map(([q, a], i) => (
-            <div key={q} data-reveal className="border-b">
-              <h3>
-                <button
-                  onClick={() => setFaq(faq === i ? null : i)}
-                  aria-expanded={faq === i}
-                  aria-controls={`faq-${i}`}
-                  className="flex w-full items-center justify-between gap-4 py-6 text-left text-base font-medium"
-                >
-                  {q}
-                  {faq === i ? (
-                    <Minus className="size-4 shrink-0" />
-                  ) : (
-                    <Plus className="size-4 shrink-0" />
-                  )}
-                </button>
-              </h3>
-              <AnimatePresence initial={false}>
-                {faq === i && (
-                  <motion.div
-                    id={`faq-${i}`}
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <p className="pb-6 text-sm leading-relaxed text-muted-foreground">{a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+          {faqs.map(([title, text]) => (
+            <details key={title}>
+              <summary>
+                {title}
+                <ChevronDown size={18} />
+              </summary>
+              <p>{text}</p>
+            </details>
           ))}
         </div>
-      </Reveal>
-      <section
-        id="collaborate"
-        className="collaboration-section topography-surface relative overflow-hidden"
-      >
-        <div className="section-shell relative">
-          <p className="eyebrow">LET’S BUILD WHAT COMES NEXT</p>
-          <h2 className="v2-collab-word mt-6 max-w-6xl">
-            Better decisions.
-            <br />
-            Stronger farmers.
-          </h2>
-          <div className="mt-8 flex flex-wrap items-center gap-7">
-            <CtaLink to="/contact">
-              Start a conversation <ArrowUpRight className="size-4" />
-            </CtaLink>
-            <a
-              href="/Agrivion-Synopsis.pdf"
-              download
-              className="text-sm text-muted-foreground underline underline-offset-4"
-            >
-              Download project synopsis
-            </a>
-          </div>
-          <p className="mt-10 max-w-xl text-sm text-muted-foreground">
-            Seeking research collaborators, technical mentors, pilot partners and conversations that
-            help the next stage of development.
-          </p>
+      </section>
+      <section className="pro-container pro-contact-banner">
+        <div>
+          <p className="eyebrow">Get in touch</p>
+          <h2>Let’s make farming support more useful.</h2>
+          <p>Have a question, a field need or an idea to share? We’d like to hear from you.</p>
         </div>
+        <CtaLink to="/contact">
+          Contact Agrivion <ArrowRight size={17} />
+        </CtaLink>
       </section>
     </>
   );

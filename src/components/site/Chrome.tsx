@@ -1,239 +1,185 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  useScroll,
-  useMotionValueEvent,
-} from "motion/react";
-import { Menu, X, ArrowUpRight, ArrowUp } from "lucide-react";
+import { Menu, X, ArrowRight, ArrowUp, Mail, Phone, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+
 export const NAV = [
-  { to: "/ecosystem", label: "Ecosystem" },
-  { to: "/rover", label: "Rover" },
-  { to: "/technology", label: "Technology" },
-  { to: "/dashboard", label: "Demo" },
-  { to: "/about", label: "Our story" },
+  { to: "/", label: "Home" },
+  { to: "/rover", label: "Agrivion Rover" },
+  { to: "/ecosystem", label: "Farmer App" },
+  { to: "/dashboard", label: "Rover Demo" },
+  { to: "/about", label: "About Us" },
 ] as const;
-const more = [
-  { to: "/intelligence", label: "AI & satellite" },
-  { to: "/applications", label: "Applications" },
-];
+const resources = [
+  { to: "/technology", label: "Technology" },
+  { to: "/intelligence", label: "Crop monitoring" },
+  { to: "/applications", label: "Field applications" },
+] as const;
 export function Logo({ className }: { className?: string }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2.5 font-display font-semibold tracking-[.12em]",
-        className,
-      )}
-    >
-      <img
-        src="/media/logo.webp"
-        alt=""
-        className="size-10 rounded-xl object-contain"
-        width={40}
-        height={40}
-      />
+    <span className={cn("pro-logo", className)}>
+      <img src="/media/logo.webp" alt="" width={44} height={44} />
       <span>
-        AGRIVION
-        <span className="mt-0.5 block font-sans text-[8px] font-normal tracking-[.28em] text-muted-foreground">
-          FROM SOWING TO SELLING
-        </span>
+        AGRIVION<small>From sowing to selling</small>
       </span>
     </span>
   );
 }
 export function Nav() {
   const [open, setOpen] = useState(false);
-  const [compact, setCompact] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
   const path = useRouterState({ select: (s) => s.location.pathname });
   const toggle = useRef<HTMLButtonElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollY, scrollYProgress } = useScroll();
-  useMotionValueEvent(scrollY, "change", (value) => {
-    setCompact((current) => (current ? value > 40 : value > 100));
-  });
-  const highlighted = hovered ?? NAV.find((item) => item.to === path)?.to;
   useEffect(() => {
     setOpen(false);
   }, [path]);
   useEffect(() => {
     if (!open) return;
-    const on = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
         setOpen(false);
         toggle.current?.focus();
       }
     };
-    window.addEventListener("keydown", on);
-    return () => window.removeEventListener("keydown", on);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-4">
-      <nav
-        aria-label="Main navigation"
-        className={cn(
-          "nav-pitch-shell glass mx-auto flex max-w-[1360px] items-center justify-between gap-4 rounded-2xl px-4 py-3 md:px-6",
-          compact && "is-compact",
-        )}
-      >
+    <header className="pro-header">
+      <nav className="pro-nav" aria-label="Main navigation">
         <Link to="/" aria-label="Agrivion home">
-          <Logo className="text-sm" />
+          <Logo />
         </Link>
-        <div
-          className="nav-pitch-links hidden items-center gap-1 lg:flex"
-          onMouseLeave={() => setHovered(null)}
-        >
-          {NAV.map((n) => (
+        <div className="pro-desktop-nav">
+          {NAV.map((item) => (
             <Link
-              key={n.to}
-              to={n.to}
+              key={item.to}
+              to={item.to}
               preload="intent"
-              onMouseEnter={() => setHovered(n.to)}
-              onFocus={() => setHovered(n.to)}
-              onBlur={() => setHovered(null)}
-              className="v2-nav-link rounded-full px-4 py-2 text-sm text-muted-foreground transition hover:text-foreground"
-              activeProps={{ className: "!text-foreground" }}
+              activeOptions={{ exact: true }}
+              aria-current={path === item.to ? "page" : undefined}
+              className={cn("pro-nav-link", path === item.to && "is-active")}
             >
-              {highlighted === n.to && (
-                <motion.span
-                  aria-hidden="true"
-                  layoutId="nav-active-pill"
-                  className="nav-sliding-pill"
-                  transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                />
-              )}
-              {n.label}
+              {item.label}
             </Link>
           ))}
         </div>
-        <div className="flex items-center gap-2">
-          <Link
-            to="/contact"
-            className="v2-cta hidden items-center gap-2 rounded-full bg-primary px-5 py-3 text-xs font-semibold text-primary-foreground sm:flex"
-          >
-            Let’s collaborate <ArrowUpRight className="size-4" />
+        <div className="pro-nav-actions">
+          <Link to="/contact" className="pro-contact-link">
+            Contact us <ArrowRight size={16} />
           </Link>
           <button
             ref={toggle}
-            onClick={() => setOpen(!open)}
+            type="button"
+            className="pro-menu-toggle"
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="grid size-11 place-items-center rounded-full border lg:hidden"
+            onClick={() => setOpen(!open)}
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </nav>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="mobile-nav"
-            initial={reduce ? false : { opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="glass mx-auto mt-2 max-h-[75svh] max-w-[1360px] overflow-y-auto rounded-2xl p-3 lg:hidden"
-          >
-            {[
-              { to: "/", label: "Home" },
-              ...NAV,
-              ...more,
-              { to: "/contact", label: "Contact & collaboration" },
-            ].map((n) => (
-              <Link
-                key={n.to}
-                to={n.to}
-                onClick={() => setOpen(false)}
-                className="block rounded-xl px-4 py-3 text-base"
-                activeOptions={{ exact: true }}
-                activeProps={{ className: "bg-accent text-emerald-glow" }}
-              >
-                {n.label}
-              </Link>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <motion.div
-        aria-hidden
-        className="fixed inset-x-0 top-0 h-[2px] origin-left bg-primary"
-        style={{ scaleX: scrollYProgress }}
-      />
+      {open && (
+        <nav id="mobile-nav" aria-label="Mobile navigation" className="pro-mobile-nav">
+          {NAV.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: true }}
+              aria-current={path === item.to ? "page" : undefined}
+              className={path === item.to ? "is-active" : ""}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link to="/contact">Contact us</Link>
+          <div className="pro-mobile-resources">Learn more</div>
+          {resources.map((item) => (
+            <Link key={item.to} to={item.to}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
 export function Footer() {
   return (
-    <footer className="border-t bg-charcoal">
-      <div className="section-shell !py-16">
-        <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
-          <div>
+    <footer className="pro-footer">
+      <div className="pro-footer-grid">
+        <div>
+          <Link to="/" aria-label="Agrivion home">
             <Logo />
-            <p className="mt-6 max-w-sm text-lg leading-relaxed">
-              Smarter Fields. Better Decisions.
-              <br />
-              <span className="text-emerald-glow">Stronger Farmers.</span>
-            </p>
-            <p className="mt-5 max-w-sm text-xs leading-relaxed text-muted-foreground">
-              Agricultural robotics, practical guidance and farmer community. Building and testing a
-              connected ecosystem for Indian agriculture.
-            </p>
-          </div>
-          <div>
-            <p className="eyebrow">Explore Agrivion</p>
-            <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
-              {[...NAV, ...more].map((n) => (
-                <li key={n.to}>
-                  <Link to={n.to} className="transition hover:text-foreground">
-                    {n.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="eyebrow">Build with us</p>
-            <a
-              href="mailto:makwanabhaveshp@gmail.com"
-              className="mt-5 block break-all text-sm hover:text-emerald-glow"
-            >
-              makwanabhaveshp@gmail.com
-            </a>
-            <p className="mt-3 text-sm text-muted-foreground">Anand, Gujarat, India</p>
-            <a
-              href="/Agrivion-Synopsis.pdf"
-              download
-              className="mt-6 inline-flex items-center gap-2 text-sm text-emerald-glow"
-            >
-              Project synopsis <ArrowUpRight className="size-4" />
-            </a>
-            <Link
-              to="/contact"
-              className="mt-4 block text-sm text-muted-foreground hover:text-foreground"
-            >
-              Pilot & research collaboration
-            </Link>
-          </div>
+          </Link>
+          <p className="pro-footer-intro">
+            Agricultural robotics, useful guidance and a connected farming community.
+          </p>
+          <p className="pro-footer-tagline">
+            Smarter Fields. Better Decisions.
+            <br />
+            Stronger Farmers.
+          </p>
         </div>
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-5 border-t pt-7 text-[11px] text-muted-foreground">
-          <p>© 2026 Agrivion. All products in development. Website demos use illustrative data.</p>
-          <button
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-                  ? "instant"
-                  : "smooth",
-              })
-            }
-            className="flex min-h-11 items-center gap-2"
-          >
-            Back to top <ArrowUp className="size-4" />
-          </button>
+        <div>
+          <h2>Explore</h2>
+          <ul>
+            {NAV.filter((item) => item.to !== "/").map((item) => (
+              <li key={item.to}>
+                <Link to={item.to}>{item.label}</Link>
+              </li>
+            ))}
+          </ul>
         </div>
+        <div>
+          <h2>Resources</h2>
+          <ul>
+            {resources.map((item) => (
+              <li key={item.to}>
+                <Link to={item.to}>{item.label}</Link>
+              </li>
+            ))}
+            <li>
+              <a href="/Agrivion-Synopsis.pdf" target="_blank" rel="noreferrer">
+                Project synopsis (PDF)
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2>Get in touch</h2>
+          <ul className="pro-footer-contact">
+            <li>
+              <Mail size={16} />
+              <a href="mailto:makwanabhaveshp@gmail.com">makwanabhaveshp@gmail.com</a>
+            </li>
+            <li>
+              <Phone size={16} />
+              <a href="tel:+917801834560">+91 78018 34560</a>
+            </li>
+            <li>
+              <MapPin size={16} />
+              <span>Anand, Gujarat, India</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="pro-footer-bottom">
+        <p>© 2026 Agrivion. Products in development. Demos use sample data.</p>
+        <button
+          type="button"
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ? "instant"
+                : "smooth",
+            })
+          }
+        >
+          Back to top <ArrowUp size={15} />
+        </button>
       </div>
     </footer>
   );
